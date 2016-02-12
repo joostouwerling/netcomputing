@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Form to create a new location</title>
+</head>
+<body>
+	<img src="image.jpg" width="400">
+	<form method="POST" action="rest/events">
+		<table>
+			<tr>
+				<td><label for="id">ID</label></td>
+				<td><input type="number" pattern="\d+" name="id"></td>
+			</tr>
+			<tr>
+				<td><label for="message">Message</label></td>
+				<td><input type="text" name="message"></td>
+			</tr>
+			<tr>
+				<td><label for="value">Value</label></td>
+				<td><input type="number" pattern="\d+" name="value"></td>
+			</tr>
+		</table>
+		<input type="submit" value="Submit">
+	</form>
+	<a href="rest/events">LOOK all events</a>
+</body>
+</html>
