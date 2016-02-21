@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,17 +14,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import static com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import static com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 
-public class StartMonitoringActivity extends AppCompatActivity implements ConnectionCallbacks, OnConnectionFailedListener {
+public class StartMonitoringActivity extends AppCompatActivity implements
+        ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 
 
     private GoogleApiClient mGoogleApiClient;
-    private boolean isConnected = false;
+    private LocationRequest mLocationRequest;
+    private int mCountLocations = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +46,6 @@ public class StartMonitoringActivity extends AppCompatActivity implements Connec
             public void onClick(View view) {
                 fab_pause.show();
                 fab_start.hide();
-                findLocation();
                 tv_explanation.setText(R.string.pause_explanation);
                 Snackbar.make(view, "Monitoring started!", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
@@ -59,23 +63,38 @@ public class StartMonitoringActivity extends AppCompatActivity implements Connec
         });
 
         if (mGoogleApiClient == null) {
-            mGoogleApiClient= new GoogleApiClient.Builder(this)
+            Log.i("StartMonitoringActivity", "Building mGoogleApiClient");
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .addApi(LocationServices.API)
                     .build();
+        }
 
+        if (mLocationRequest == null) {
+            Log.i("StartMonitoringActivity", "Making LocationRequest");
+            mLocationRequest = LocationRequest.create()
+                    .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                    .setInterval(5 * 1000)
+                    .setFastestInterval(1 * 1000);
         }
     }
 
-    private void findLocation() {
-        if (!isConnected)
-            return;
-        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (location != null) {
-            Toast toast = Toast.makeText(getApplicationContext(), location.toString(), Toast.LENGTH_LONG);
-            toast.show();
-        }
+    private void startLocationUpdates() {
+        LocationServices.FusedLocationApi.requestLocationUpdates(
+                mGoogleApiClient, mLocationRequest, this);
+    }
+
+    private void stopLocationUpdates() {
+        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+    }
+
+
+    @Override
+    public void onLocationChanged(Location loc) {
+        Log.w("StartMonitoringActivity", Integer.toString(mCountLocations));
+        mCountLocations++;
+        Toast.makeText(this, mCountLocations + ": " + loc.toString(), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -103,30 +122,34 @@ public class StartMonitoringActivity extends AppCompatActivity implements Connec
     @Override
     public void onResume() {
         super.onResume();
-        mGoogleApiClient.connect();
+        if (!mGoogleApiClient.isConnected())
+            mGoogleApiClient.connect();
+        if (mGoogleApiClient.isConnected())
+            startLocationUpdates();
     }
-
-
 
     @Override
     public void onPause() {
         super.onPause();
         if (mGoogleApiClient.isConnected())
-            mGoogleApiClient.disconnect();
+            stopLocationUpdates();
     }
 
     @Override
     public void onConnected(Bundle connectionHint) {
-        isConnected = true;
+        Log.i("StartMonitoringActivity", "onConnected");
+        startLocationUpdates();
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        Log.i("StartMonitoringActivity", "onConnectionSuspended");
+        Toast.makeText(this, "Connection suspended!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-
+        Log.i("StartMonitoringActivity", "onConnectionFailed");
+        Toast.makeText(this, "Connection failed!", Toast.LENGTH_SHORT).show();
     }
 }
