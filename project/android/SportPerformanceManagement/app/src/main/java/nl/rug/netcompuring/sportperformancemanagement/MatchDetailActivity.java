@@ -1,9 +1,12 @@
 package nl.rug.netcompuring.sportperformancemanagement;
 
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -22,18 +25,21 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import static com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import static com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 
-public class StartMonitoringActivity extends AppCompatActivity implements
+public class MatchDetailActivity extends AppCompatActivity implements
         ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
+
+    public static final String ARG_MATCH_ID = "match_id";
 
 
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private int mCountLocations = 0;
+    private String mMatchId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start_monitoring);
+        setContentView(R.layout.activity_show_match);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -62,8 +68,17 @@ public class StartMonitoringActivity extends AppCompatActivity implements
             }
         });
 
+        if (savedInstanceState == null)
+            mMatchId = getIntent().getStringExtra(this.ARG_MATCH_ID);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("Match #" + mMatchId);
+        }
+
         if (mGoogleApiClient == null) {
-            Log.i("StartMonitoringActivity", "Building mGoogleApiClient");
+            Log.i("MatchDetailActivity", "Building mGoogleApiClient");
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
@@ -72,7 +87,7 @@ public class StartMonitoringActivity extends AppCompatActivity implements
         }
 
         if (mLocationRequest == null) {
-            Log.i("StartMonitoringActivity", "Making LocationRequest");
+            Log.i("MatchDetailActivity", "Making LocationRequest");
             mLocationRequest = LocationRequest.create()
                     .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                     .setInterval(5 * 1000)
@@ -92,7 +107,7 @@ public class StartMonitoringActivity extends AppCompatActivity implements
 
     @Override
     public void onLocationChanged(Location loc) {
-        Log.w("StartMonitoringActivity", Integer.toString(mCountLocations));
+        Log.w("MatchDetailActivity", Integer.toString(mCountLocations));
         mCountLocations++;
         Toast.makeText(this, mCountLocations + ": " + loc.toString(), Toast.LENGTH_LONG).show();
     }
@@ -116,12 +131,20 @@ public class StartMonitoringActivity extends AppCompatActivity implements
             return true;
         }
 
+        if (id == android.R.id.home) {
+            NavUtils.navigateUpTo(this, new Intent(this, MatchListActivity.class));
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        if (mGoogleApiClient == null) {
+            return;
+        }
         if (!mGoogleApiClient.isConnected())
             mGoogleApiClient.connect();
         if (mGoogleApiClient.isConnected())
@@ -131,25 +154,28 @@ public class StartMonitoringActivity extends AppCompatActivity implements
     @Override
     public void onPause() {
         super.onPause();
+        if (mGoogleApiClient == null)
+            return;
+
         if (mGoogleApiClient.isConnected())
             stopLocationUpdates();
     }
 
     @Override
     public void onConnected(Bundle connectionHint) {
-        Log.i("StartMonitoringActivity", "onConnected");
+        Log.i("MatchDetailActivity", "onConnected");
         startLocationUpdates();
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-        Log.i("StartMonitoringActivity", "onConnectionSuspended");
+        Log.i("MatchDetailActivity", "onConnectionSuspended");
         Toast.makeText(this, "Connection suspended!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.i("StartMonitoringActivity", "onConnectionFailed");
+        Log.i("MatchDetailActivity", "onConnectionFailed");
         Toast.makeText(this, "Connection failed!", Toast.LENGTH_SHORT).show();
     }
 }

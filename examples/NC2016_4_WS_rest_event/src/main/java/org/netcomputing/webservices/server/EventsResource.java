@@ -52,7 +52,9 @@ public class EventsResource {
 	// retuns the number of Events
 	// Use
 	// http://localhost:8080/.../rest/events/count
-	// to get the total number of records @GET @Path("count")
+	// to get the total number of records
+	@GET
+	@Path("count")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String getCount() {
 		int count = EventDAO.instance.getModel().size();

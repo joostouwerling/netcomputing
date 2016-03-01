@@ -9,7 +9,7 @@ public class Test {
 	public static void main(String[] args) {
 		Client client = ClientBuilder.newClient(); 
 		
-		WebTarget target = client.target("http://localhost:8080/NC2016_4_WS_rest/rest").path("hello"); 
+		WebTarget target = client.target("http://localhost:8080/NetComputing2015_WS_jersey_event/rest").path("hello"); 
 		System.out.println(target.request(MediaType.TEXT_PLAIN).get(String.class));
 		System.out.println(target.request(MediaType.TEXT_XML).get(String.class));
 		// Fluent interfaces

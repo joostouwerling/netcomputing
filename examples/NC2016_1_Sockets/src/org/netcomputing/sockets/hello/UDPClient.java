@@ -18,10 +18,12 @@ public class UDPClient {
 			InetAddress aHost = InetAddress.getByName(SERVER_ADDRESS);
 			DatagramPacket request = new DatagramPacket(m, m.length, aHost,
 					UDPServer.SERVER_PORT);
+			System.out.println("Sending packet");
 			aSocket.send(request);
 			// get reply
 			byte[] buffer = new byte[1000];
 			DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
+			System.out.println("Receiving packet");
 			aSocket.receive(reply);
 			System.out.println("Reply: " + new String(reply.getData()));
 		} catch (SocketException e) {
