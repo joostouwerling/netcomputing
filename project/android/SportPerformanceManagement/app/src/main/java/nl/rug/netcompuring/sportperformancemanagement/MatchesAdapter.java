@@ -17,7 +17,7 @@ public class MatchesAdapter extends RecyclerView.Adapter <MatchesAdapter.ViewHol
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView mTextName;
-        public TextView mTextId;
+        public TextView mTextDetails;
         public View mView;
         public Match mMatch;
 
@@ -25,16 +25,21 @@ public class MatchesAdapter extends RecyclerView.Adapter <MatchesAdapter.ViewHol
             super(view);
             mView = view;
             mTextName = (TextView) view.findViewById(R.id.match_list_item_name);
-            mTextId = (TextView) view.findViewById(R.id.match_list_item_id);
+            mTextDetails = (TextView) view.findViewById(R.id.match_list_item_details);
         }
 
         public String toString () {
-            return super.toString() + " " + mTextName.getText() + " " + mTextId.getId();
+            return super.toString() + " " + mTextName.getText() + " " + mTextDetails.getId();
         }
     }
 
-    public MatchesAdapter (Match[] dataset) {
-        mDataSet = dataset;
+    public MatchesAdapter () {
+        mDataSet = new Match[0];
+    }
+
+    public void setMatches(Match[] matches) {
+        mDataSet = matches;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -48,13 +53,13 @@ public class MatchesAdapter extends RecyclerView.Adapter <MatchesAdapter.ViewHol
     public void onBindViewHolder(final ViewHolder vh, int position) {
         vh.mMatch = mDataSet[position];
         vh.mTextName.setText(mDataSet[position].getName());
-        vh.mTextId.setText(mDataSet[position].getId());
+        vh.mTextDetails.setText(mDataSet[position].getServer() + ":" + Integer.toString(mDataSet[position].getPort()));
         vh.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
                 Intent intent  = new Intent(context, MatchDetailActivity.class);
-                intent.putExtra(MatchDetailActivity.ARG_MATCH_ID, vh.mMatch.getId());
+                intent.putExtra(MatchDetailActivity.ARG_MATCH, vh.mMatch);
                 context.startActivity(intent);
             }
         });
@@ -64,5 +69,6 @@ public class MatchesAdapter extends RecyclerView.Adapter <MatchesAdapter.ViewHol
     public int getItemCount () {
         return mDataSet.length;
     }
+
 
 }

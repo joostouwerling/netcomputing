@@ -29,6 +29,14 @@
         android:id="@+id/match_recycler_view"
         android:scrollbars="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:visibility="gone"
         />
+
+    <ProgressBar
+        android:id="@+id/progress_bar_matches"
+        style="?android:progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
 
 </android.support.design.widget.CoordinatorLayout>

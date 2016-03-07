@@ -19,7 +19,7 @@
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/match_list_item_id"
+        android:id="@+id/match_list_item_details"
         android:layout_width="fill_parent"
         android:layout_height="26dip"
         android:layout_alignParentBottom="true"

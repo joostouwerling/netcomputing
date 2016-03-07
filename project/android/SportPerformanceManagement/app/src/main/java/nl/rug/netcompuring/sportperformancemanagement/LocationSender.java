@@ -7,6 +7,7 @@ import android.util.Log;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.Date;
 
 /**
  * Created by joostouwerling on 02/03/16.
@@ -17,19 +18,19 @@ public class LocationSender {
 
     private String mServerAddress;
     private int mServerPort;
-    private String mMatchId;
+    private int mMatchId;
 
     DatagramSocket mSocket;
     InetAddress mHost;
 
-    public LocationSender(String matchId, String address, int port) {
-        mServerAddress = address;
-        mServerPort = port;
-        mMatchId = matchId;
+    public LocationSender(Match m) {
+        mServerAddress = m.getServer();
+        mServerPort = m.getPort();
+        mMatchId = m.getId();
     }
 
     public void send(Location loc) {
-        new SendLocationTask().execute(loc.getLatitude() + "\n" + loc.getLongitude() + "\n" + mMatchId);
+        new SendLocationTask().execute("Joost" + "\n" + new Date().toString() + "\n" + loc.getLatitude() + "\n" + loc.getLongitude());
     }
 
     private class SendLocationTask extends AsyncTask<String, String, Boolean> {

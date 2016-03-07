@@ -27,10 +27,11 @@ import static com.google.android.gms.common.api.GoogleApiClient.OnConnectionFail
 
 public class MatchDetailActivity extends AppCompatActivity  {
 
-    public static final String ARG_MATCH_ID = "match_id";
+    public static final String ARG_MATCH = "match";
+    public static final String TAG = "MatchDetailActivity";
 
     private LocationMonitor mLocationMonitor;
-    private String mMatchId;
+    private Match mMatch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,19 +69,19 @@ public class MatchDetailActivity extends AppCompatActivity  {
         });
 
         if (savedInstanceState == null)
-            mMatchId = getIntent().getStringExtra(this.ARG_MATCH_ID);
+            mMatch = (Match) getIntent().getParcelableExtra(ARG_MATCH);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("Match #" + mMatchId);
+            actionBar.setTitle(mMatch.getName());
         }
 
     }
 
     private void startMonitoring() {
         if (mLocationMonitor == null)
-            mLocationMonitor = new LocationMonitor(new LocationSender(mMatchId, "joostisthe.name", 7376), getApplicationContext());
+            mLocationMonitor = new LocationMonitor(new LocationSender(mMatch), getApplicationContext());
         mLocationMonitor.startMonitoring();
     }
 
