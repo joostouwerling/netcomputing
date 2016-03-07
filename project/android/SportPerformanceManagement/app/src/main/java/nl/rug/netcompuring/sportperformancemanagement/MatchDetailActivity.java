@@ -25,21 +25,18 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import static com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import static com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 
-public class MatchDetailActivity extends AppCompatActivity implements
-        ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
+public class MatchDetailActivity extends AppCompatActivity  {
 
     public static final String ARG_MATCH_ID = "match_id";
 
-
-    private GoogleApiClient mGoogleApiClient;
-    private LocationRequest mLocationRequest;
-    private int mCountLocations = 0;
+    private LocationMonitor mLocationMonitor;
     private String mMatchId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_match);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -55,6 +52,7 @@ public class MatchDetailActivity extends AppCompatActivity implements
                 tv_explanation.setText(R.string.pause_explanation);
                 Snackbar.make(view, "Monitoring started!", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                startMonitoring();
             }
         });
 
@@ -65,6 +63,7 @@ public class MatchDetailActivity extends AppCompatActivity implements
                 fab_start.show();
                 tv_explanation.setText(R.string.start_explanation);
                 Snackbar.make(view, "Monitoring ended!", Snackbar.LENGTH_LONG).show();
+                stopMonitoring();
             }
         });
 
@@ -77,47 +76,19 @@ public class MatchDetailActivity extends AppCompatActivity implements
             actionBar.setTitle("Match #" + mMatchId);
         }
 
-        if (mGoogleApiClient == null) {
-            Log.i("MatchDetailActivity", "Building mGoogleApiClient");
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
-        }
-
-        if (mLocationRequest == null) {
-            Log.i("MatchDetailActivity", "Making LocationRequest");
-            mLocationRequest = LocationRequest.create()
-                    .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                    .setInterval(5 * 1000)
-                    .setFastestInterval(1 * 1000);
-        }
     }
 
-    private void startLocationUpdates() {
-        LocationServices.FusedLocationApi.requestLocationUpdates(
-                mGoogleApiClient, mLocationRequest, this);
+    private void startMonitoring() {
+        if (mLocationMonitor == null)
+            mLocationMonitor = new LocationMonitor(new LocationSender(mMatchId, "joostisthe.name", 7376), getApplicationContext());
+        mLocationMonitor.startMonitoring();
     }
 
-    private void stopLocationUpdates() {
-        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+    private void stopMonitoring() {
+        if (mLocationMonitor != null)
+            mLocationMonitor.stopMonitoring();
     }
 
-
-    @Override
-    public void onLocationChanged(Location loc) {
-        Log.w("MatchDetailActivity", Integer.toString(mCountLocations));
-        mCountLocations++;
-        Toast.makeText(this, mCountLocations + ": " + loc.toString(), Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_start_monitoring, menu);
-        return true;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -125,11 +96,6 @@ public class MatchDetailActivity extends AppCompatActivity implements
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         if (id == android.R.id.home) {
             NavUtils.navigateUpTo(this, new Intent(this, MatchListActivity.class));
@@ -142,40 +108,15 @@ public class MatchDetailActivity extends AppCompatActivity implements
     @Override
     public void onResume() {
         super.onResume();
-        if (mGoogleApiClient == null) {
-            return;
-        }
-        if (!mGoogleApiClient.isConnected())
-            mGoogleApiClient.connect();
-        if (mGoogleApiClient.isConnected())
-            startLocationUpdates();
+        if (mLocationMonitor != null)
+            mLocationMonitor.startMonitoring();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (mGoogleApiClient == null)
-            return;
-
-        if (mGoogleApiClient.isConnected())
-            stopLocationUpdates();
+        if (mLocationMonitor != null)
+            mLocationMonitor.stopMonitoring();
     }
 
-    @Override
-    public void onConnected(Bundle connectionHint) {
-        Log.i("MatchDetailActivity", "onConnected");
-        startLocationUpdates();
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        Log.i("MatchDetailActivity", "onConnectionSuspended");
-        Toast.makeText(this, "Connection suspended!", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.i("MatchDetailActivity", "onConnectionFailed");
-        Toast.makeText(this, "Connection failed!", Toast.LENGTH_SHORT).show();
-    }
 }

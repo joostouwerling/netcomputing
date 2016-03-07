@@ -40,7 +40,7 @@
         <service
             android:name=".MonitorLocationService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="false"></service>
     </application>
 
 </manifest>

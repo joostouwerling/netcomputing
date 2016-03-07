@@ -2,11 +2,14 @@ package nl.rug.netcompuring.sportperformancemanagement;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 
-public class MatchListActivity extends Activity {
+public class MatchListActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -16,8 +19,11 @@ public class MatchListActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_matches);
-        mRecyclerView = (RecyclerView) findViewById(R.id.match_recycler_view);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_matches);
+        setSupportActionBar(toolbar);
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.match_recycler_view);
         mRecyclerView.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(this);
