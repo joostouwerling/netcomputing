@@ -13,8 +13,8 @@ public class Connector {
 	public Connector() throws Exception { 
 		String driver = "com.mysql.jdbc.Driver";
 		String url = "jdbc:mysql://localhost:3306/abc?autoReconnect=true&useSSL=false";
-		String username = "root"; 
-		String password = "netcomputing"; 
+		String username = ""; 
+		String password = ""; 
 		Class.forName(driver); 
 		conn = DriverManager.getConnection(url, username, password); 
 		System.out.println("Connection\n"); 
