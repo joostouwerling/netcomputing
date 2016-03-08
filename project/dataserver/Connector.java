@@ -1,5 +1,3 @@
-package database;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -12,22 +10,22 @@ public class Connector {
 	
 	public Connector() throws Exception { 
 		String driver = "com.mysql.jdbc.Driver";
-		String url = "jdbc:mysql://localhost:3306/abc?autoReconnect=true&useSSL=false";
-		String username = "root"; 
-		String password = "netcomputing"; 
+		String url = "jdbc:mysql://localhost:3306/dataserver?autoReconnect=true&useSSL=false";
+		String username = ""; 
+		String password = ""; 
 		Class.forName(driver); 
 		conn = DriverManager.getConnection(url, username, password); 
 		System.out.println("Connection\n"); 
 	}
 	
-	public void storePackage(String name, String date, float magnitude, float longitude) throws Exception{
+	public void storePackage(String name, String date, float latitude, float longitude) throws Exception{
 		PreparedStatement preparedStatement = null;
 		preparedStatement = conn.prepareStatement("insert into  locations values (default, ?, ?, ?, ?)");
-		// "name, date, magnitude, longitude");
+		// "name, date, latitude, longitude");
 		// Parameters start with 1
 		preparedStatement.setString(1, name);
 		preparedStatement.setString(2, date);
-		preparedStatement.setFloat(3, magnitude);
+		preparedStatement.setFloat(3, latitude);
 		preparedStatement.setFloat(4, longitude);
 		preparedStatement.executeUpdate();
 }
@@ -44,10 +42,10 @@ public class Connector {
      		int id  = rs.getInt("idLocations");
      		String name = rs.getString("name");
      		String date = rs.getString("date"); 
-     		Long magnitude = rs.getLong("magnitude");
-     		Long longitude = rs.getLong("longitude");
+     		Float latitude = rs.getFloat("latitude");
+     		Float longitude = rs.getFloat("longitude");
      		
-     		System.out.print("idLocations: " + id + ", " + "name: " + name + ", "+ "date: " +  date + ", " + "magnitude" + magnitude + ", "+ "longitude: "+longitude+ "\n");
+     		System.out.print("idLocations: " + id + ", " + "name: " + name + ", "+ "date: " +  date + ", " + "latitude" + latitude + ", "+ "longitude: "+longitude+ "\n");
      	 }
      	rs.close();
 	}

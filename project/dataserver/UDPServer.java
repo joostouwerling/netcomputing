@@ -1,4 +1,3 @@
-package UDP;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutput;
@@ -7,7 +6,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.sql.SQLException;
-import database.Connector;
 
 public class UDPServer {
 
@@ -34,10 +32,10 @@ public class UDPServer {
 				aSocket.receive(request);
 				String receivedString = new String(request.getData()); 
 				String parameters[] = receivedString.split("\\r?\\n");
-				float magnitude = Float.parseFloat(parameters[2]); 
+				float latitude = Float.parseFloat(parameters[2]); 
 				float longitude = Float.parseFloat(parameters[3]); 
 				try {
-					connector.storePackage(parameters[0], parameters[1], magnitude, longitude);
+					connector.storePackage(parameters[0], parameters[1], latitude, longitude);
 					connector.printDatabase();
 	            } catch (Exception e) {
 					e.printStackTrace();
