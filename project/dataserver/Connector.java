@@ -10,7 +10,7 @@ public class Connector {
 	
 	public Connector() throws Exception { 
 		String driver = "com.mysql.jdbc.Driver";
-		String url = "jdbc:mysql://localhost:3306/dataserver?autoReconnect=true&useSSL=false";
+		String url = "jdbc:mysql://localhost:3306/abc?autoReconnect=true&useSSL=false";
 		String username = ""; 
 		String password = ""; 
 		Class.forName(driver); 
