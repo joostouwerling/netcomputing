@@ -45,12 +45,12 @@ public class LocationPacket {
 	/**
 	 * The latitude of the location
 	 */
-	private float latitude;
+	private double latitude;
 	
 	/**
 	 * The longitude of the location
 	 */
-	private float longitude;
+	private double longitude;
 	
 	/**
 	 * Constructor, which sets all of the above fields.
@@ -60,7 +60,7 @@ public class LocationPacket {
 	 * @param latitude
 	 * @param longitude
 	 */
-	public LocationPacket (int playerId, int matchId, Date date, float latitude, float longitude) {
+	public LocationPacket (int playerId, int matchId, Date date, double latitude, double longitude) {
 		setPlayerId(playerId);
 		setMatchId(matchId);
 		setDate(date);
@@ -88,8 +88,8 @@ public class LocationPacket {
 			int playerId = Integer.parseInt(lines[0]);
 			int matchId = Integer.parseInt(lines[1]);
 			int timestamp = Integer.parseInt(lines[2]);
-			float latitude = Float.parseFloat(lines[3]);
-			float longitude = Float.parseFloat(lines[4]);
+			double latitude = Double.parseDouble(lines[3]);
+			double longitude = Double.parseDouble(lines[4]);
 			// Convert timestamp to a date.
 			Date date = new Date();
 			date.setTime(timestamp);
@@ -103,28 +103,28 @@ public class LocationPacket {
 	/**
 	 * @return the latitude
 	 */
-	public float getLatitude() {
+	public double getLatitude() {
 		return latitude;
 	}
 	
 	/**
 	 * @param latitude the latitude to set
 	 */
-	private void setLatitude(float latitude) {
+	private void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
 
 	/**
 	 * @return the longitude
 	 */
-	public float getLongitude() {
+	public double getLongitude() {
 		return longitude;
 	}
 
 	/**
 	 * @param longitude the longitude to set
 	 */
-	public void setLongitude(float longitude) {
+	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
 
