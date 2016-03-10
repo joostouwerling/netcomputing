@@ -1,5 +1,6 @@
 package nl.rug.netcompuring.sportperformancemanagement;
 
+import com.sportperformancemanagement.common.LocationPacket;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -30,7 +31,8 @@ public class LocationSender {
     }
 
     public void send(Location loc) {
-        new SendLocationTask().execute("Joost" + "\n" + new Date().toString() + "\n" + loc.getLatitude() + "\n" + loc.getLongitude());
+        LocationPacket lp = new LocationPacket(1, mMatchId, new Date(), loc.getLatitude(), loc.getLongitude());
+        new SendLocationTask().execute(lp.toString());
     }
 
     private class SendLocationTask extends AsyncTask<String, String, Boolean> {

@@ -5,7 +5,7 @@ Version 1, made at 9th of March.
 
 ### Joost
 
-* 11-03: Common code made: LocationPacket, MySQL Connector
+~~* 11-03: Common code made: LocationPacket, MySQL Connector~~
 * 13-03: Web service for matches running on WebService at  DigitalOcean
 * 15-03: Web service on DataServers running for data retrieval
 * 17-03: Web service for coaches running on WebService
