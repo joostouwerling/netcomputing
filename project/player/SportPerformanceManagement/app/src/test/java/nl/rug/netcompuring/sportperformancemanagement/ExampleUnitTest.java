@@ -1,4 +1,4 @@
-package nl.rug.netcompuring.sportperformancemanagement;
+package com.sportperformancemanagement.player.sportperformancemanagement;
 
 import org.junit.Test;
 

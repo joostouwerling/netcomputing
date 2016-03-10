@@ -33,7 +33,7 @@ public class EventsResource {
 
 	// Return the list of events to the user in the browser 
 	@GET
-	@Produces(MediaType.TEXT_XML)
+	@Produces(MediaType.APPLICATION_JSON)
 	public List<Event> getEventsBrowser() {
 		List<Event> events = new ArrayList<Event>();
 		events.addAll(EventDAO.instance.getModel().values());
@@ -41,13 +41,13 @@ public class EventsResource {
 	}
 
 	// Return the list of events for applications 
-	@GET
+	/*@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public List<Event> getEvents() {
 		List<Event> events = new ArrayList<Event>();
 		events.addAll(EventDAO.instance.getModel().values());
 		return events;
-	}
+	}*/
 
 	// retuns the number of Events
 	// Use

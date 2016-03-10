@@ -1,4 +1,4 @@
-package nl.rug.netcompuring.sportperformancemanagement;
+package com.sportperformancemanagement.player;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import com.sportperformancemanagement.player.sportperformancemanagement.R;
 
 public class MatchDetailActivity extends AppCompatActivity  {
 

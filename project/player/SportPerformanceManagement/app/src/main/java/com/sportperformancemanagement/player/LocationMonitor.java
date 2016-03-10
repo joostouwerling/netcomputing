@@ -1,4 +1,4 @@
-package nl.rug.netcompuring.sportperformancemanagement;
+package com.sportperformancemanagement.player;
 
 import android.content.Context;
 import android.location.Location;
