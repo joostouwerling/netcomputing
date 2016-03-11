@@ -3,7 +3,7 @@ The following techniques are used:
 
 * Players send data over UDP sockets to a data server
 * Coaches can request information / heatmaps using a webservice
-* Webservices request data from the data server. On request, the data server launches workers who do the actual work (i.e. generating heatmaps, calculating statistics, etc)
+* Webservices request data from the data server using a queue.
 
 ![Sketch of the structure](sketch_structure.jpg)
 
@@ -20,25 +20,20 @@ The web service receives requests from the coaches for data like heatmaps and st
 ### Coaches 
 Coaches request data from the web service, based on user input. The coach entity can display this information. The coach entity is a web-based platform.
 
-### Workers
-Workers are activated by the webservice and generate the heatmaps / statistics. They communicate with the data server to get the data and return the result back to the webservice.
-
 ## Inter-entity communication
 ### Player - Data server
 Players send the following data to the data server, using UDP sockets:
 
 * player_id
+* match_id
 * location
 * datetime
-
-They send this data with a frequency of .. packets per ..
 
 ### Coach - Web service
 The coach sends requests to the web service for generating stuff. This is done using a REST api and is done based on user input.
 
-### Web Service - Workers
-Web service send the requirements for the requested object to a worker queue using RabbitMQ. Workers pick this up and do the task, by gathering data from the data server. When done, the worker notifies the web service that the task has been completed.
+### Web Service - Data Servers
+The web servers uses a RabbitMQ to request the data request from coaches. Say, a coach want to make a heatmap of player x in match y, the web servers puts a request in the queue with "give me all locations of player x in match y". All Data Servers read this and respond with the data.
 
-### Workers - Data server
-The workers request data from the data server for the object they want to generate.
-
+### Player - Web Service
+The player can request match data from the web service.
