@@ -6,9 +6,9 @@ Version 1, made at 9th of March.
 ### Joost
 
 * ~~11-03: Common code made: LocationPacket, MySQL Connector~~
-* 13-03: Web service for matches running on WebService at DigitalOcean
+* ~~13-03: Web service for matches running on WebService at DigitalOcean~~
 * 15-03: RabbitMQ between data servers and web service for data requests
-* 18-03: Web service for coaches running on WebService
+* 18-03: ~~Web service for coaches running on WebService~~
 * 20-03: Start with documentation, finalizing
 
 ### Erik
