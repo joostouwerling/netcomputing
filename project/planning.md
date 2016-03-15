@@ -12,8 +12,8 @@ Version 1, made at 9th of March.
 * 20-03: Start with documentation, finalizing
 
 ### Erik
-* ??-03: Generating heatmaps based on locations using Google Maps
-* ??-03: Making a webform to request a certain player/match
+* 15-03: Generating heatmaps based on locations using Google Maps
+* 17-03: Making a webform to request a certain player/match
 * 20-03: start with doc, finalizing
 
 
