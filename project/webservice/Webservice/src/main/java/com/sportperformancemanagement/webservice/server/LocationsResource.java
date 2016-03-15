@@ -33,7 +33,7 @@ public class LocationsResource {
 	@GET
 	@Path("/{match}/{player}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void asyncGetWithTimeout(@Suspended final AsyncResponse asyncResponse,
+	public void getLocationsForMatchAndPlayer(@Suspended final AsyncResponse asyncResponse,
 									@PathParam("match") final int matchId,
 									@PathParam("player") final int playerId) {
 	    /*asyncResponse.setTimeoutHandler(new TimeoutHandler() {
