@@ -36,5 +36,6 @@ public class MatchJSON {
         	matchArray[i] = jsonToMatch(matches.getJSONObject(i));
         return matchArray;
 	}
+
 	
 }
