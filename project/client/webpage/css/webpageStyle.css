@@ -79,7 +79,7 @@
  */
 .main {
   padding: 20px;
-}
+}	
 @media (min-width: 768px) {
   .main {
     padding-right: 40px;
@@ -87,17 +87,15 @@
   }
 }
 .main .page-header {
-  margin-top: 0;
+  margin-top: 10%;
 }
-
 
 /*
  * Placeholder dashboard ideas
  */
 
 .placeholders {
-  margin-bottom: 30px;
-  text-align: center;
+  margin-bottom: 30px; 
 }
 
 .placeholder {
