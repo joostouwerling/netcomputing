@@ -1,6 +1,7 @@
 package com.sportperformancemanagement.webservice.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -47,6 +48,20 @@ public class MatchDAO {
 			logger.log(Level.SEVERE, "Could not load Matches from database", ex);
 			throw new Exception("Could not load matches from database. See the logs for more details.");
 		}
+	}
+	
+	
+	public void insert(Match match) throws Exception {
+		Connection conn = MySQLConnection.instance();
+		if (conn == null)
+			throw new Exception("MySQL Connection not available.");
+
+		String query = "INSERT INTO matches(name, server, port) VALUES (?, ?, ?)";
+		PreparedStatement stmt = conn.prepareStatement(query);
+		stmt.setString(1, match.getName());
+		stmt.setString(2, match.getServer());
+		stmt.setInt(3, match.getPort());
+		stmt.execute();
 	}
 	
 }

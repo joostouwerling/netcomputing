@@ -17,6 +17,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.sportperformancemanagement.common.LocationRequest;
+
 @Path("/locations")
 public class LocationsResource {
 	
@@ -62,6 +64,7 @@ public class LocationsResource {
 	        		locationsJson.put(current_key, "[]");
 	        		logger.log(Level.INFO, "Started listening for locations on key " + current_key);
 	        		// notify dataservers via rabbit mq
+	        		RequestEmitter.emitRequest(new LocationRequest(matchId, playerId, "http://localhost:8080/Webservice/rest/locations/" + current_key), "locations_match_player");
 	        		Thread.sleep(15000);
 	        		String output = locationsJson.get(current_key);
 	        		logger.log(Level.INFO, "Received locations from " + countIncomingLocations.get(current_key) + " dataservers.");

@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import com.sportperformancemanagement.common.LocationPacket;
 
 public class LocationListener implements Runnable {
-
+	
 	/**
 	 * Used for logging
 	 */
@@ -24,13 +24,34 @@ public class LocationListener implements Runnable {
 	/**
 	 * The port on which this server is listening for locations.
 	 */
-	public static final int SERVER_PORT = 7376;
+	public static final int DEFAULT_PORT = 7376;
+	
+	/**
+	 * The actual port to use
+	 */
+	private int port;
 	
 	
 	/**
 	 * Used for storing the incoming location packets.
 	 */
 	private LocationDAO locationsDao;
+	
+	/**
+	 * Start Listening on port "port"
+	 * @param port
+	 */
+	public LocationListener(int port) {
+		this.port = port;
+	}
+	
+	/**
+	 * Use the default port.
+	 */
+	public LocationListener() {
+		this(DEFAULT_PORT);
+	}
+	
 	
 	/**
 	 * Open the socket and start listening
@@ -47,8 +68,8 @@ public class LocationListener implements Runnable {
 	 */
 	private boolean openSocket() {
 		try {
-			socket = new DatagramSocket(SERVER_PORT);
-			logger.log(Level.INFO, "Socket opened at port " + SERVER_PORT);
+			socket = new DatagramSocket(port);
+			logger.log(Level.INFO, "Socket opened at port " + port);
 		} catch (SocketException ex) {
 			logger.log(Level.SEVERE, "Could not start datagram socket", ex);
 			return false;
