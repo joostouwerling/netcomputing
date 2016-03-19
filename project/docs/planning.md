@@ -22,3 +22,5 @@ Version 1, made at 9th of March.
 * ~~Implement creation of matches~~
 * Fetch existing players in coach web
 * set up player data in app
+* make JSONifier (or not?)
+* implement update/delete of players/matches?
