@@ -28,7 +28,7 @@ public class PlayerDAO {
 	 * @throws Exception if there is an error fetching the players 
 	 * from the database.
 	 */
-	public Player[] getPlayers() throws Exception {
+	public Player[] getAll() throws Exception {
 		try {
 			Connection conn = MySQLConnection.instance();
 			Statement stmt = conn.createStatement();
@@ -65,15 +65,6 @@ public class PlayerDAO {
 			logger.log(Level.SEVERE, "Exception while insertint player into database.", ex);
 			throw new Exception("Could not insert the player into the database.");
 		}
-	}
-	
-	
-	public static void main(String[] args) throws Exception {
-		PlayerDAO pld = new PlayerDAO();
-		Player[] pls = pld.getPlayers();
-		for (Player p : pls)
-			System.out.println(p.getName());
-		pld.insert(new Player("Joost Ouwerling"));
 	}
 	
 }

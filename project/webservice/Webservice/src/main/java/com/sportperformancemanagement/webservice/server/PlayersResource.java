@@ -13,12 +13,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.sportperformancemanagement.common.Match;
-import com.sportperformancemanagement.common.MatchJSON;
-import com.sportperformancemanagement.webservice.dao.MatchDAO;
+import com.sportperformancemanagement.webservice.dao.Player;
+import com.sportperformancemanagement.webservice.dao.PlayerDAO;
 
-@Path("/matches")
-public class MatchesResource {
+@Path("/players")
+public class PlayersResource {
 	
 	/**
 	 * Used for logging
@@ -26,39 +25,38 @@ public class MatchesResource {
 	private static final Logger logger =
 	        Logger.getLogger(MatchesResource.class.getName());
 	
-	private MatchDAO matchDao;
+	private PlayerDAO playerDao;
 	
-	public MatchesResource() {
-		matchDao = new MatchDAO();
+	public PlayersResource() {
+		playerDao = new PlayerDAO();
 	}
 	
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getMatches() {
+	public String getPlayers() {
 		try {
-			Match[] matches = matchDao.getAll();
-			logger.log(Level.INFO, "Received " + matches.length + " matches from matchDAO");
-			return MatchJSON.matchesToJson(matches).toString();
+			Player[] players = playerDao.getAll();
+			logger.log(Level.INFO, "Received " + players.length + " players from playerDAO");
+			return PlayerJSON.playersToJson(players).toString();
 		} catch (Exception ex) {
-			logger.log(Level.SEVERE, "Error in loading matches from database", ex);
+			logger.log(Level.SEVERE, "Error in loading players from database", ex);
 			throw new WebApplicationException(
 					Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build());
 		}
 	}
 	
 	@POST
-	public void insertMatch(@FormParam("port") int port,
-							@FormParam("name") String name,
-							@FormParam("server") String server) {
-		Match match = new Match(name, 0, server, port); 
+	public void insertMatch(@FormParam("name") String name) {
+		Player player = new Player(name); 
 		try {
-			matchDao.insert(match);
+			playerDao.insert(player);
 		} catch (Exception ex) {
-			logger.log(Level.WARNING, "Match could not be inserted.", ex);
+			logger.log(Level.WARNING, "Player could not be inserted.", ex);
 			throw new WebApplicationException(
 					Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build());	
 		}
 	}
-		
+
+
 }

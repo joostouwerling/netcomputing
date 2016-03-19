@@ -27,7 +27,7 @@ public class MatchDAO {
 	 * @return an array of Match objects
 	 * @throws Exception if there was an error loading the matches from the database.
 	 */
-	public Match[] getMatches() throws Exception {
+	public Match[] getAll() throws Exception {
 		try {
 			Connection conn = MySQLConnection.instance();
 			Statement stmt = conn.createStatement();
