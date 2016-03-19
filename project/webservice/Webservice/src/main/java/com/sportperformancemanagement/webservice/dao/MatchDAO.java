@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import com.sportperformancemanagement.common.Match;
 import com.sportperformancemanagement.common.MySQLConnection;
 
@@ -46,22 +47,30 @@ public class MatchDAO {
 			return matchesArr;
 		} catch (SQLException ex) {
 			logger.log(Level.SEVERE, "Could not load Matches from database", ex);
-			throw new Exception("Could not load matches from database. See the logs for more details.");
+			throw new Exception("Could not load matches from database.");
 		}
 	}
-	
 	
 	public void insert(Match match) throws Exception {
 		Connection conn = MySQLConnection.instance();
 		if (conn == null)
 			throw new Exception("MySQL Connection not available.");
-
-		String query = "INSERT INTO matches(name, server, port) VALUES (?, ?, ?)";
-		PreparedStatement stmt = conn.prepareStatement(query);
-		stmt.setString(1, match.getName());
-		stmt.setString(2, match.getServer());
-		stmt.setInt(3, match.getPort());
-		stmt.execute();
+		
+		try {
+			String query = "INSERT INTO matches(name, server, port) VALUES (?, ?, ?)";
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setString(1, match.getName());
+			stmt.setString(2, match.getServer());
+			stmt.setInt(3, match.getPort());
+			stmt.execute();
+			logger.log(Level.INFO, "Match " + match.getName() + " inserted into the database");
+		} catch (MySQLIntegrityConstraintViolationException ex) {
+			logger.log(Level.WARNING, "Match probably already exists in database", ex);
+			throw new Exception("The match with name " + match.getName() + " already exists!");
+		} catch (Exception ex) {
+			logger.log(Level.SEVERE, "Exception while inserting match into database.", ex);
+			throw new Exception("Could not insert the match into the database.");
+		}
 	}
-	
+		
 }
