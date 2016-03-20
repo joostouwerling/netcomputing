@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.sportperformancemanagement.common.Match;
 import com.sportperformancemanagement.player.sportperformancemanagement.R;
 
 public class MatchesAdapter extends RecyclerView.Adapter <MatchesAdapter.ViewHolder> {
@@ -60,7 +61,7 @@ public class MatchesAdapter extends RecyclerView.Adapter <MatchesAdapter.ViewHol
             public void onClick(View v) {
                 Context context = v.getContext();
                 Intent intent  = new Intent(context, MatchDetailActivity.class);
-                intent.putExtra(MatchDetailActivity.ARG_MATCH, vh.mMatch);
+                intent.putExtra(MatchDetailActivity.ARG_MATCH, MatchParcelable.make(vh.mMatch));
                 context.startActivity(intent);
             }
         });

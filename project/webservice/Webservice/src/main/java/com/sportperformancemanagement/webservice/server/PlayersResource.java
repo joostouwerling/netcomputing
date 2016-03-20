@@ -13,7 +13,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.sportperformancemanagement.webservice.dao.Player;
+import com.sportperformancemanagement.common.Player;
+import com.sportperformancemanagement.common.PlayerJSON;
 import com.sportperformancemanagement.webservice.dao.PlayerDAO;
 
 @Path("/players")

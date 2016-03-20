@@ -15,6 +15,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.sportperformancemanagement.common.Match;
 import com.sportperformancemanagement.player.sportperformancemanagement.R;
 
 import org.json.JSONArray;
@@ -85,8 +86,8 @@ public class MatchListActivity extends AppCompatActivity {
                             for (int i = 0; i < matches.length(); i++) {
                                 match = matches.getJSONObject(i);
                                 matchArray[i] = new Match(
-                                        match.getString("name"),
                                         match.getInt("id"),
+                                        match.getString("name"),
                                         match.getString("server"),
                                         match.getInt("port"));
                             }

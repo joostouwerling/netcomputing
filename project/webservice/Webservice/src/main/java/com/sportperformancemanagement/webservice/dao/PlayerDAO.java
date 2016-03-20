@@ -1,5 +1,6 @@
 package com.sportperformancemanagement.webservice.dao;
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +13,7 @@ import java.util.logging.Logger;
 
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import com.sportperformancemanagement.common.MySQLConnection;
+import com.sportperformancemanagement.common.Player;
 
 public class PlayerDAO {
 	

@@ -1,10 +1,8 @@
-package com.sportperformancemanagement.webservice.server;
+package com.sportperformancemanagement.common;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.sportperformancemanagement.webservice.dao.Player;
 
 public class PlayerJSON {
 

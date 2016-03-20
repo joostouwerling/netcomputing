@@ -1,6 +1,8 @@
 package com.sportperformancemanagement.player;
 
 import com.sportperformancemanagement.common.LocationPacket;
+import com.sportperformancemanagement.common.Match;
+
 import android.location.Location;
 import android.os.AsyncTask;
 import android.util.Log;

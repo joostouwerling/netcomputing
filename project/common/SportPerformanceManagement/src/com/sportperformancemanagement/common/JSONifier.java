@@ -20,11 +20,11 @@ public class JSONifier {
 		return obj;
 	}
 	
-	
+	/*
 	public static void main(String[] args) throws Exception {
 		Match m = new Match("test", 12, "test", 12);
 		System.out.println(JSONifier.toJson(m).toString());
-	}
+	}*/
 	/*
 	public static Player jsonToPlayer(JSONObject player) throws JSONException {
         return new Player(match.getInt("id"), match.getInt("name"));

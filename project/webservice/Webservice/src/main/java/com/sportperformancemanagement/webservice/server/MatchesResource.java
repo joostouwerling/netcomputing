@@ -51,7 +51,7 @@ public class MatchesResource {
 	public void insertMatch(@FormParam("port") int port,
 							@FormParam("name") String name,
 							@FormParam("server") String server) {
-		Match match = new Match(name, 0, server, port); 
+		Match match = new Match(name, server, port); 
 		try {
 			matchDao.insert(match);
 		} catch (Exception ex) {

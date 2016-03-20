@@ -8,8 +8,8 @@ public class MatchJSON {
 
 	public static JSONObject matchToJson(Match match) {
 		JSONObject obj = new JSONObject();
-		obj.put("name", match.getName());
 		obj.put("id", match.getId());
+		obj.put("name", match.getName());
 		obj.put("server", match.getServer());
 		obj.put("port", match.getPort());
 		return obj;
@@ -17,8 +17,8 @@ public class MatchJSON {
 	
 	public static Match jsonToMatch(JSONObject match) throws JSONException {
         return new Match(
-        		match.getString("name"),
                 match.getInt("id"),
+        		match.getString("name"),
                 match.getString("server"),
                 match.getInt("port"));
 	}

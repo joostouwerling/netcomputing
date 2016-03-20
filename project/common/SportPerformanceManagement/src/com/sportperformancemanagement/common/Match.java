@@ -10,12 +10,16 @@ public class Match {
     private String server;
     private int port;
 
-    public Match(String n, int id, String server, int port)
+    public Match(int id, String name, String server, int port)
     {
-        setName(n);
         setId(id);
+        setName(name);
         setServer(server);
         setPort(port);
+    }
+    
+    public Match(String name, String server, int port) {
+    	this(0, name, server, port);
     }
 
     public String getName() {

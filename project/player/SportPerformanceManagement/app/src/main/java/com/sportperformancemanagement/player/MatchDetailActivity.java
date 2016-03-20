@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.sportperformancemanagement.common.Match;
 import com.sportperformancemanagement.player.sportperformancemanagement.R;
 
 public class MatchDetailActivity extends AppCompatActivity  {

@@ -36,8 +36,8 @@ public class MatchDAO {
 			List<Match> matches = new ArrayList<Match>();
 			while (rs.next()) {
 				matches.add(new Match(
-						rs.getString("name"),
 						rs.getInt("id"),
+						rs.getString("name"),
 						rs.getString("server"),
 						rs.getInt("port")));
 			}

@@ -1,4 +1,4 @@
-package com.sportperformancemanagement.webservice.dao;
+package com.sportperformancemanagement.common;
 
 /**
  * Player class
