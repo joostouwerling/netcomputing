@@ -14,14 +14,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
  	<rabbitmq.amqpclient.version>2.0.0</rabbitmq.amqpclient.version>
   </properties>
-  
-  <!-- <repositories>
-  	<repository>
-  		<id>common</id>
-  		<name>Common</name>
-  		<url>file://${project.basedir}/libs/</url>
-  	</repository>
-  </repositories> -->
 
   <dependencies>
     <dependency>

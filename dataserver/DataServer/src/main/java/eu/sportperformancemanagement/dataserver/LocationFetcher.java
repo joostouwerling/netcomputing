@@ -73,6 +73,7 @@ public class LocationFetcher {
 	 * 				   locs needs to be send to.
 	 */
 	private void postLocationsToCallback(Location[] locs, String callback) {
+		
 		// Make a JSON array of the locations.
 		JSONArray arr = LocationJSON.locationsToJson(locs);
 		

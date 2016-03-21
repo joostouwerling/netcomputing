@@ -1,4 +1,4 @@
-package com.sportperformancemanagement.webservice.server;
+package eu.sportperformancemanagement.webservice.server;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,10 +13,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.sportperformancemanagement.common.Player;
-import com.sportperformancemanagement.common.PlayerJSON;
-import com.sportperformancemanagement.webservice.dao.AlreadyExistsException;
-import com.sportperformancemanagement.webservice.dao.PlayerDAO;
+import eu.sportperformancemanagement.common.Player;
+import eu.sportperformancemanagement.common.PlayerJSON;
+import eu.sportperformancemanagement.webservice.dao.AlreadyExistsException;
+import eu.sportperformancemanagement.webservice.dao.PlayerDAO;
 
 @Path("/players")
 public class PlayersResource {

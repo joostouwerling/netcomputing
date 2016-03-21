@@ -8,7 +8,7 @@ package eu.sportperformancemanagement.common;
 public class SpmConstants {
 
 	/**
-	 * The base url of the webservice
+	 * The base url of the webservice, including a trailing slash!
 	 */
 	public static final String WEBSERVICE_BASE_URL = "http://webservice.sportperformancemanagement.eu:8080/Webservice/rest/";
 	
@@ -28,5 +28,10 @@ public class SpmConstants {
 	 * The routing key for fetching the locations for a certain match and player
 	 */
 	public static final String KEY_LOCATIONS_MATCH_PLAYER = "locations_match_player";
+	
+	/**
+	 * The wait time for locations to come in
+	 */
+	public static final int WAIT_TIME_LOCATIONS = 5000;
 	
 }

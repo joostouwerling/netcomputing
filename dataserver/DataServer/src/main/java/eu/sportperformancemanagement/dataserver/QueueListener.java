@@ -53,8 +53,8 @@ public class QueueListener implements Runnable {
 		
 		/**
 		 * Initialize the connection with the channel, using a ConnectionFactory
-		 * object. Then declare the exchange and bind the queue. Exchange name and 
-		 * the server address are defined in SpmConstants. 
+		 * object. Then declare the exchange as fanout and bind the queue. Exchange
+		 * name and the server address are defined in SpmConstants. 
 		 * 
 		 * When connecting succeeds, start listening on the queue. In case
 		 * of an exception, log it and return the thread - not much we can do

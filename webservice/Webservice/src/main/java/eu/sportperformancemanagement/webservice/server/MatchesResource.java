@@ -1,4 +1,4 @@
-package com.sportperformancemanagement.webservice.server;
+package eu.sportperformancemanagement.webservice.server;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,10 +13,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.sportperformancemanagement.common.Match;
-import com.sportperformancemanagement.common.MatchJSON;
-import com.sportperformancemanagement.webservice.dao.AlreadyExistsException;
-import com.sportperformancemanagement.webservice.dao.MatchDAO;
+import eu.sportperformancemanagement.common.Match;
+import eu.sportperformancemanagement.common.MatchJSON;
+import eu.sportperformancemanagement.webservice.dao.AlreadyExistsException;
+import eu.sportperformancemanagement.webservice.dao.MatchDAO;
 
 @Path("/matches")
 public class MatchesResource {

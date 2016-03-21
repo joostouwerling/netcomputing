@@ -42,7 +42,7 @@ public class LocationDAO {
 	public void insert(LocationPacket locationPacket) throws Exception {
 		// Create a MySQL connection
 		Connection conn = MySQLConnection.create();
-		// Insert the location packet in the database with a prepared statment.
+		// Insert the location packet in the database with a prepared statement.
 		String query = "INSERT INTO locations(match_id, player_id, datetime_received, latitude, longitude) VALUES (?, ?, ?, ?, ?)";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		stmt.setInt(1, locationPacket.getMatchId());
