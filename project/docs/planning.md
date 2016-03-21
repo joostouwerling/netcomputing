@@ -13,13 +13,14 @@ Version 1, made at 9th of March.
 
 ### Erik
 * ~~15-03: Generating heatmaps based on locations using Google Maps~~
-* 17-03: Making a webform to request a certain player/match
+* ~~17-03: Making a webform to request a certain player/match~~~
+* ~~19-03:  Implement creation of matches on front end~~
+* ~~21-03: Implement creation of players on front end~~
 * 20-03: start with doc, finalizing
 
 ### To do
 * deploying with multiple servers
 * ~~Data server refactoren~~
-* ~~Implement creation of matches~~
 * ~~Fetch existing players in coach web~~
 * ~~set up player data in app~~
-* set correct status codes
+* ~~set correct status codes~~
