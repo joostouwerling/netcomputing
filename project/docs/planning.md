@@ -22,4 +22,4 @@ Version 1, made at 9th of March.
 * ~~Implement creation of matches~~
 * ~~Fetch existing players in coach web~~
 * ~~set up player data in app~~
-* set correct status codes
+* ~~set correct status codes~~
