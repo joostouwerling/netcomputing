@@ -2,6 +2,7 @@ package com.sportperformancemanagement.player;
 
 import com.sportperformancemanagement.common.LocationPacket;
 import com.sportperformancemanagement.common.Match;
+import com.sportperformancemanagement.common.Player;
 
 import android.location.Location;
 import android.os.AsyncTask;
@@ -22,18 +23,20 @@ public class LocationSender {
     private String mServerAddress;
     private int mServerPort;
     private int mMatchId;
+    private int mPlayerId;
 
     DatagramSocket mSocket;
     InetAddress mHost;
 
-    public LocationSender(Match m) {
+    public LocationSender(Match m, Player player) {
         mServerAddress = m.getServer();
         mServerPort = m.getPort();
         mMatchId = m.getId();
+        mPlayerId = player.getId();
     }
 
     public void send(Location loc) {
-        LocationPacket lp = new LocationPacket(1, mMatchId, new Date(), loc.getLatitude(), loc.getLongitude());
+        LocationPacket lp = new LocationPacket(mPlayerId, mMatchId, new Date(), loc.getLatitude(), loc.getLongitude());
         new SendLocationTask().execute(lp.toString());
     }
 

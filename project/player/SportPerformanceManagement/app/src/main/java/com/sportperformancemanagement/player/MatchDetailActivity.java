@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.sportperformancemanagement.common.Match;
+import com.sportperformancemanagement.common.Player;
 import com.sportperformancemanagement.player.sportperformancemanagement.R;
 
 public class MatchDetailActivity extends AppCompatActivity  {
@@ -22,10 +23,20 @@ public class MatchDetailActivity extends AppCompatActivity  {
 
     private LocationMonitor mLocationMonitor;
     private Match mMatch;
+    private Player mPlayer;
+    private PlayerStorage playerStorage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        playerStorage = new PlayerStorage(this);
+        if (!playerStorage.hasPlayer()) {
+            startActivity(new Intent(this, PlayerActivity.class));
+            return;
+        }
+        mPlayer = playerStorage.getPlayer();
+
         setContentView(R.layout.activity_show_match);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -71,7 +82,7 @@ public class MatchDetailActivity extends AppCompatActivity  {
 
     private void startMonitoring() {
         if (mLocationMonitor == null)
-            mLocationMonitor = new LocationMonitor(new LocationSender(mMatch), getApplicationContext());
+            mLocationMonitor = new LocationMonitor(new LocationSender(mMatch, mPlayer), getApplicationContext());
         mLocationMonitor.startMonitoring();
     }
 
