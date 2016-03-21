@@ -2,18 +2,18 @@ package eu.sportperformancemanagement.common;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * A (sort of singleton) class which can be used to retrieve a connection to
- * a MySQL server. When the class is loaded for the first time,
- * an attempt to make a connection is made. If this succeeds, conn
- * contains the MySQL Connection. This connection can be retrieved by
- * the static method getConnection(). The method throws an exception when
- * no connection is available.
+ * A (sort of singleton) class which can be used to create a connection to
+ * a MySQL server. When the class is loaded for the first time, it is initalized
+ * in setup(). This means, the parameters are loaded from the environment (see below)
+ * and the driver  is loaded. Then, when the static method create() is called,
+ * a Connection object is returned with the parameters retrieved in the setup step.
  * 
  * The class gets the connection parameters from the environment variables.
  * This is to make sure that the parameters don't end up in repositories and 
@@ -50,54 +50,61 @@ public class MySQLConnection {
 	/**
 	 * Holds the connection to the database
 	 */
-	private Connection conn = null;
+	private Map<String, String> connParams;
 	
 	/**
-	 * Private constructor. Connects to the database.
+	 * True if the class is properly initialized, false otherwise.
+	 */
+	private boolean initialized;
+	
+	/**
+	 * Private constructor. Sets initialized to false,
+	 * loads the connection parameters and loads
+	 * the driver class.
 	 */
 	private MySQLConnection() {
-		connect();
+		initialized = false;
+		setup();
 	}
 	
 	/**
-	 * Returns the connection of the singleton MySQLConnection.
+	 * Returns a Connection object, based on the parameters in the environment
 	 * @return a Connection object with a MySQL connection
 	 * @throws Exception if there is no connection available
 	 */
-	public static Connection instance() throws Exception {
-		if (!singleton.isConnected())
+	public static Connection create() throws Exception {
+		if (!singleton.isInitialized())
 			throw new Exception("MySQL connection not available.");
-		return singleton.getConnection();
+		return singleton.createConnection();
 	}
 	
 	/**
-	 * @return the MySQL connection
+	 * @return the MySQL connection, based on the parameters in connParams
 	 */
-	private Connection getConnection() {
-		return conn;
+	private Connection createConnection() throws SQLException {
+		String url = "jdbc:mysql://" + connParams.get("server") + "/"
+				+ connParams.get("database");
+		return DriverManager.getConnection(url, connParams.get("username"), connParams.get("password"));
 	}
 	
 	/**
-	 * @return true if connected to the database, false otherwise
+	 * @return true if the class is initialized, false otherwise.
 	 */
-	private boolean isConnected() {
-		return conn != null;
+	private boolean isInitialized() {
+		return initialized;
 	}
 	
 	/**
-	 * Connects to the MySQL database, with the parameters retrieved 
-	 * by using getConnectionParameters.
+	 * Retrieve the MySQL connection parameters and load the driver class.
 	 */
-	private void connect() {
+	private void setup() {
 		try {
-			Map<String, String> connParams = getConnectionParameters();
-			String url = "jdbc:mysql://" + connParams.get("server") + "/"
-							+ connParams.get("database") + "?autoReconnect=true";
+			connParams = getConnectionParameters();
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(url, connParams.get("username"), connParams.get("password"));
-			logger.log(Level.INFO, "MySQL connection made");
+			initialized = true;
+			logger.log(Level.INFO, "MySQL parameters read from environment & driver loaded.");
 		} catch (Exception ex) {
-			logger.log(Level.SEVERE, "Could not make MySQL Connection", ex);
+			logger.log(Level.SEVERE, "Could not load MySQL params from environment or driver not found.", ex);
 		}
 	}
 	

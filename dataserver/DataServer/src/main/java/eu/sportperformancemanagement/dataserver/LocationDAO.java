@@ -29,31 +29,20 @@ public class LocationDAO {
 	        Logger.getLogger(LocationDAO.class.getName());
 	
 	/**
-	 * Hold the connection to the MySQL database.
+	 * Empty constructor
 	 */
-	Connection conn = null;
-	
-	/**
-	 * Load the MYSQL connection. If this fails, log an error message.
-	 */
-	public LocationDAO() {
-		try {
-			conn = MySQLConnection.instance();
-		} catch (Exception ex) {
-			logger.log(Level.WARNING, "Error in retrieving the MySQL connection.", ex);
-		}
-	}
+	public LocationDAO() {}
 	
 	/**
 	 * Insert locationPacket into the database. Connection given by
-	 * MySQLConnection.getInstance();
+	 * MySQLConnection.create();
 	 * @param locationPacket the location packet that needs to be inserted.
 	 * @throws Exception if no MySQL connection is available or when an SQL error occurs.
 	 */
 	public void insert(LocationPacket locationPacket) throws Exception {
-		if (conn == null)
-			throw new Exception("MySQL Connection not available.");
-		
+		// Create a MySQL connection
+		Connection conn = MySQLConnection.create();
+		// Insert the location packet in the database with a prepared statment.
 		String query = "INSERT INTO locations(match_id, player_id, datetime_received, latitude, longitude) VALUES (?, ?, ?, ?, ?)";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		stmt.setInt(1, locationPacket.getMatchId());
@@ -62,6 +51,9 @@ public class LocationDAO {
 		stmt.setDouble(4, locationPacket.getLatitude());
 		stmt.setDouble(5, locationPacket.getLongitude());
 		stmt.execute();
+		// Close the resources
+		stmt.close();
+		conn.close();
 	}
 	
 	/**
@@ -74,8 +66,9 @@ public class LocationDAO {
 	 * @throws Exception if there is a problem with SQL.
 	 */
 	public Location[] findLocations(int matchId, int playerId) throws Exception {
-		if (conn == null)
-			throw new Exception("MySQL Connection not available.");
+		
+		// Make a connection to the database.
+		Connection conn = MySQLConnection.create();
 		
 		// Make the select statement
 		String query = "SELECT latitude, longitude FROM locations WHERE match_id = ? and player_id = ?";
@@ -91,10 +84,16 @@ public class LocationDAO {
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next())
 				locations.add(new Location(rs.getDouble("latitude"), rs.getDouble("longitude")));
+			rs.close();
 			logger.log(Level.INFO, locations.size() + " locations have been loaded from the database");
+		// Oopsie, error while reading from the database. Log and rethrow.
 		} catch (SQLException ex) {
 			logger.log(Level.SEVERE, "Could not load Locations from database", ex);
 			throw new Exception("Could not load locations from database. See the logs for more details.");
+		// Close the sql resources
+		} finally {
+			stmt.close();
+			conn.close();
 		}
 		
 		// Convert the array list to an array and return.

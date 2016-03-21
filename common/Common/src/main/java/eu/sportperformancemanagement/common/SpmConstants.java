@@ -1,7 +1,17 @@
 package eu.sportperformancemanagement.common;
 
-public class QueueConstants {
+/**
+ * A set of constants used across different application parts.
+ * @author Joost Ouwerling <j.t.ouwerling@student.rug.nl>
+ *
+ */
+public class SpmConstants {
 
+	/**
+	 * The base url of the webservice
+	 */
+	public static final String WEBSERVICE_BASE_URL = "http://webservice.sportperformancemanagement.eu:8080/Webservice/rest/";
+	
 	/**
 	 * The server where the queue can be found.
 	 */
