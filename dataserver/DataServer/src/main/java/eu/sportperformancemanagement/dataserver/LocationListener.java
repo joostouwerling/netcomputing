@@ -78,6 +78,7 @@ public class LocationListener implements Runnable {
 	/**
 	 * Open the Datagram Socket If it fails, the exception is
 	 * logged and false is returned, so the thread can be closed.
+	 * @return true if socket is opened, false otherwise.
 	 */
 	private boolean openSocket() {
 		try {
