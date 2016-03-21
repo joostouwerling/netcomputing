@@ -6,26 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">	
-    <meta name="author" content="">
-  
-    <title>Dashboard Template for Bootstrap</title>
+    <meta name="In this page the user is able to see heatmaps from players in certain matches">	
+    <meta name="Erik Bijl">
+	
+    <title>Heatmaps</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="css/webpageStyle.css" rel="stylesheet"> 
-
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="javascript/ie-emulation-modes-warning.js"></script>
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
   </head>
 
   <body>
@@ -45,6 +35,7 @@
           <ul class="nav navbar-nav navbar-left">
             <li><a href="index.html">Heatmaps</a></li>
             <li><a href="newMatch.html">New match</a></li>	
+			<li><a href="newPlayer.html">New player</a></li>
 			</ul>
 			</div>
       </div>
@@ -54,7 +45,8 @@
       <div class="row">
         <div class="col-sm-4 col-md-2 sidebar">
 			<ul class="nav nav-sidebar">
-            <form action = "#">
+            	<b> Select a a player: </b><br> <br>
+			<form id="getLocations" action="http://webservice.sportperformancemanagement.eu:8080/Webservice/rest/locations" method="get">
 				<div  class="form-group">
 					<label for="match">Match</label>
 					<select class="form-control" id="selectMatch">
@@ -63,21 +55,23 @@
 				<div class="form-group">
 					<label for="player">Player</label>
 					<select class="form-control" id="selectPlayer">
-						<option>1</option>
-						<option>2</option>
 					</select>
 				</div>	
-				 <button type="submit" class="btn btn-default">GO</button>
 			</form>
+			<button type="submit" class="btn btn-default" id="submitButton" value="submit" data-loading-text="Loading...">GO</button>
 			</ul>
         </div> 		
       </div>
     </div>
-	<div id = "map"> > </div>
+	<div id = "map"></div>
+	
 	
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script type="text/javascript">
-	var matches = []; 	
+	<script type="text/javascript">
+	var matches = [];
+	var players = [] 
+	var map, heatmap;
+		
 		function loadMatches() {
 			var i;
 			jQuery.getJSON( "http://webservice.sportperformancemanagement.eu:8080/Webservice/rest/matches", function( data ) {
@@ -85,27 +79,36 @@
 					matches[i] = data[i];
 					$("#selectMatch").append($("<option></option>").val(data[i].id).html(data[i].name));
 				}
-			});
-			 loadHeatMap();
+			}).error(function() { alert("error"); });
+			 loadPlayers();
 		}
 		
-		var map, heatmap;
+		function loadPlayers() {
+			var i;
+			jQuery.getJSON( "http://webservice.sportperformancemanagement.eu:8080/Webservice/rest/players", function( data ) {
+				for(i = 0; i < data.length; i++){
+					players[i] = data[i];
+					$("#selectPlayer").append($("<option></option>").val(data[i].id).html(data[i].name));
+				}
+			}).error(function() { alert("error"); });
+			}
 		
-		function loadHeatMap() {
-			var sumLat = 0; 
+		function loadHeatMap(player, match, $btn) {
+			var sumLat = 0;  	
 			var sumLng = 0;
-			jQuery.getJSON( "http://webservice.sportperformancemanagement.eu:8080/Webservice/rest/locations", function( data ) {
+			var i;
+			jQuery.getJSON( "http://webservice.sportperformancemanagement.eu:8080/Webservice/rest/locations/" + match + "/" + player, function( data ) {
 				var points = [];
 				for(i = 0; i < data.length; i++) { 
 					sumLat += data[i].lat;
 					sumLng += data[i].lng;	
 					points.push(new google.maps.LatLng(data[i].lat,data[i].lng));
 			}
-				loadMap(points, sumLat, sumLng);
-			});	
+				loadMap(points, sumLat, sumLng, $btn);
+			});
 		}
 		
-		function loadMap(points, sumLat, sumLng) {
+		function loadMap(points, sumLat, sumLng, $btn) {
 			var i; 
 			var avgLat = sumLat / points.length; 
 			var avgLng = sumLng / points.length; 
@@ -119,15 +122,23 @@
 				  data: points,
 				  map: map
 				});
+				$btn.button('reset');				
 		}
-		</script>
-
+	
+		$('#submitButton').on('click', function () {
+			var $btn = $(this).button('loading');
+	
+			var player = $(	"#selectPlayer").val();
+			var match = $ ( "#selectMatch").val();
+			loadHeatMap(player, match, $btn) ;
+		})	
+		
+			</script>
+		
 		<script async defer
 			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGePtTEBjsvrA_nHKS8hkxXfMv48C9czM&libraries=visualization&callback=loadMatches">
 		</script>
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- Bootstrap core JavaScript -->
     <script src="javascript/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="javascript/ie10-viewport-bug-workaround.js"></script>

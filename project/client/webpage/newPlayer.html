@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-    <meta name="In this page the user creates a new match">	
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="In this page the user creates a new Player">	
     <meta name="Erik Bijl">
 	
     <title>Dashboard Template for Bootstrap</title>
@@ -16,7 +16,6 @@
 
     <!-- Custom styles for this template -->
     <link href="css/webpageStyle.css" rel="stylesheet"> 
-
   </head>
 
   <body>
@@ -46,68 +45,52 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-				<h1 class="page-header">New Match</h1>
+				<h1 class="page-header">New Player</h1>
 				<div class="row placeholders">
 					<div class="col-xs-6 col-sm-3 placeholder">
-							<form id="newMatch" method="post" >
+							<form id="newPlayer" method="post">
 							  <div class="form-group">
-								<label for="port">Port</label>
-								<input type="text" class="form-control" id="port" placeholder="port">
-							  </div>
-							   <div class="form-group">
 								<label for="name">Name</label>
 								<input type="text" class="form-control" id="name" placeholder="name">
 							  </div>
-							   <div class="form-group">
-								<label for="server">Server</label>
-								<input type="text" class="form-control" id="server" placeholder="server">
-							  </div>
-							  
 							</form>
 							<button type="submit" class="btn btn-default" id="submitButton" value="submit">Create</button>
-					</div>
+						</div>
 				</div>
 			</div>
 		</div>
-	<div>	
+	</div>	
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
 	<script type='text/javascript'> 
-
+		
 		$(document).ready(function(){
 			$("#submitButton").click(function(){
 				var $btn = $(this).button('loading');
-				var port = $("#port").val();
 				var name = $("#name").val();
-				var server = $("#server").val();
-				if(name=='' || port=='' || server==''){
+				if(name==''){
 					alert("Please fill out the form");
 				}
 				else{
-					url = "http://webservice.sportperformancemanagement.eu:8080/Webservice/rest/matches";
-					var jqxhr = $.post(url,
-						{ 
-						name:name,
-						port:port,
-						server:server
-						},
-						function(){ 
+					url = "http://webservice.sportperformancemanagement.eu:8080/Webservice/rest/players";
+					var jqxhr = $.post(url,{ name:name},
+						function(data){
 							$btn.button('reset');				
-							$("#newMatch")[0].reset();
+							$("#newPlayer")[0].reset();
 						});
-					jqxhr.done( function() {alert("The match is saved")} )
+					jqxhr.done( function() {alert("The player is saved")} )
 					jqxhr.fail( function(xhr, textStatus, errorThrown) {
 						$btn.button('reset');
 						alert(xhr.responseText);
-					});					
+					});	
 				}
 			});
-		});	
-				
+		});
 	</script>
-    <!-- Bootstrap core JavaScript-->
-	<script src="javascript/bootstrap.min.js"></script>
+	
+    <!-- Bootstrap core JavaScript -->
+    <script src="javascript/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="javascript/ie10-viewport-bug-workaround.js"></script>
   </body>
