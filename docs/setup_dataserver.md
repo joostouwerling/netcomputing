@@ -15,6 +15,11 @@ Now, set the right environment variables for MySQL (MYSQL_SERVER, MYSQL_DATABASE
 nano /etc/environment
 ```
 
+Execute the required SQL statements to build the database
+```
+mysql -u<user> -p<password> < dataserver.sql
+```
+
 Clone the code from the repository & cd into the right directory
 ```
 git clone https://github.com/joostouwerling/netcomputing.git
