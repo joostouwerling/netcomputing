@@ -71,7 +71,7 @@ public class LocationListener implements Runnable {
 			socket = new DatagramSocket(port);
 			logger.log(Level.INFO, "Socket opened at port " + port);
 		} catch (SocketException ex) {
-			logger.log(Level.SEVERE, "Could not start datagram socket", ex);
+			logger.log(Level.SEVERE, "Could not start datagram socket. Exiting LocationListener.", ex);
 			return false;
 		}
 		return true;

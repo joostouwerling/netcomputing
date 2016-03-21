@@ -1,4 +1,4 @@
-package com.sportperformancemanagement.common;
+package eu.sportperformancemanagement.common;
 
 /**
  * Created by joostouwerling on 24/02/16.

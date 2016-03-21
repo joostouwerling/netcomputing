@@ -1,4 +1,4 @@
-package com.sportperformancemanagement.common;
+package eu.sportperformancemanagement.common;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -1,4 +1,4 @@
-package com.sportperformancemanagement.common;
+package eu.sportperformancemanagement.common;
 
 import java.util.Date;
 import java.util.logging.Level;

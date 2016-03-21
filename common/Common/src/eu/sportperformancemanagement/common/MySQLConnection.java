@@ -1,4 +1,4 @@
-package com.sportperformancemanagement.common;
+package eu.sportperformancemanagement.common;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

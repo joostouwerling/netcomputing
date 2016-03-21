@@ -10,8 +10,6 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.json.JSONArray;
 
-import com.sportperformancemanagement.common.LocationRequest;
-
 public class LocationFetcher {
 	
 	/**

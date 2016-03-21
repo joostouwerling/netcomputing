@@ -45,7 +45,7 @@ public class QueueListener implements Runnable {
 		    // Listen for all routing keys on this exchange
 		    channel.queueBind(queueName, QueueConstants.EXCHANGE_NAME, "");
 		} catch (Exception ex) {
-			logger.log(Level.SEVERE, "Can not create Rabbit MQ channel", ex);
+			logger.log(Level.SEVERE, "Can not create Rabbit MQ channel. Exiting QueueListener.", ex);
 			return;
 		}
 		
