@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import eu.sportperformancemanagement.common.LocationPacket;
+import eu.sportperformancemanagement.common.MySQLConnection;
+
 public class LocationDAO {
 
 	/**

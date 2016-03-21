@@ -15,13 +15,13 @@
  	<rabbitmq.amqpclient.version>2.0.0</rabbitmq.amqpclient.version>
   </properties>
   
-  <repositories>
+  <!-- <repositories>
   	<repository>
   		<id>common</id>
   		<name>Common</name>
   		<url>file://${project.basedir}/libs/</url>
   	</repository>
-  </repositories>
+  </repositories> -->
 
   <dependencies>
     <dependency>
@@ -41,7 +41,7 @@
 		<version>4.5.2</version>
 	</dependency>
 	<dependency>
-		<groupId>sportperformancemanagement</groupId>
+		<groupId>eu.sportperformancemanagement.common</groupId>
 		<artifactId>common</artifactId>
 		<version>1.0</version>
 	</dependency>

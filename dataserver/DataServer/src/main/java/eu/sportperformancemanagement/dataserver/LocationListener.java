@@ -6,7 +6,7 @@ import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.sportperformancemanagement.common.LocationPacket;
+import eu.sportperformancemanagement.common.LocationPacket;
 
 public class LocationListener implements Runnable {
 	

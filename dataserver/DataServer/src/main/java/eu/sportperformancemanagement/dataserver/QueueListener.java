@@ -11,8 +11,9 @@ import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Consumer;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
-import com.sportperformancemanagement.common.LocationRequest;
-import com.sportperformancemanagement.common.QueueConstants;
+
+import eu.sportperformancemanagement.common.LocationRequest;
+import eu.sportperformancemanagement.common.QueueConstants;
 
 public class QueueListener implements Runnable {
 	
