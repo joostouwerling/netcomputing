@@ -16,8 +16,10 @@ public class Player {
 		setName(name);
 	}
 	
-	public Player(String name) {
+	public Player(String name) throws Exception {
 		this(0, name);
+		if (name == null || name == "")
+			throw new Exception("A player should have a name.");
 	}
 	
 	

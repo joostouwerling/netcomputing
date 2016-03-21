@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response.Status;
 
 import com.sportperformancemanagement.common.Player;
 import com.sportperformancemanagement.common.PlayerJSON;
+import com.sportperformancemanagement.webservice.dao.AlreadyExistsException;
 import com.sportperformancemanagement.webservice.dao.PlayerDAO;
 
 @Path("/players")
@@ -48,15 +49,27 @@ public class PlayersResource {
 	}
 	
 	@POST
-	public void insertMatch(@FormParam("name") String name) {
-		Player player = new Player(name); 
+	public Response insertPlayer(@FormParam("name") String name) {
+		Player player;
+		try {
+			player = new Player(name); 
+		} catch (Exception ex) {
+			logger.log(Level.WARNING, "Player could not be created from input.", ex);
+			throw new WebApplicationException(
+					Response.status(Status.BAD_REQUEST).entity(ex.getMessage()).build());	
+		}
+		
 		try {
 			playerDao.insert(player);
+		} catch (AlreadyExistsException ex) {
+			throw new WebApplicationException(
+					Response.status(Status.CONFLICT).entity(ex.getMessage()).build());	
 		} catch (Exception ex) {
 			logger.log(Level.WARNING, "Player could not be inserted.", ex);
 			throw new WebApplicationException(
 					Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build());	
 		}
+		return Response.status(Status.CREATED).entity(PlayerJSON.playerToJson(player).toString()).build();
 	}
 
 

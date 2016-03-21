@@ -49,7 +49,7 @@ public class PlayerDAO {
 		}
 	}
 	
-	public void insert(Player player) throws Exception {
+	public void insert(Player player) throws AlreadyExistsException, Exception {
 		Connection conn = MySQLConnection.instance();
 		if (conn == null)
 			throw new Exception("MySQL Connection not available.");
@@ -62,7 +62,7 @@ public class PlayerDAO {
 			logger.log(Level.INFO, "Player " + player.getName() + " inserted into the database");
 		} catch (MySQLIntegrityConstraintViolationException ex) {
 			logger.log(Level.WARNING, "Player probably already exists in database", ex);
-			throw new Exception("The player with name " + player.getName() + " already exists!");
+			throw new AlreadyExistsException("The player with name " + player.getName() + " already exists!");
 		} catch (Exception ex) {
 			logger.log(Level.SEVERE, "Exception while insertint player into database.", ex);
 			throw new Exception("Could not insert the player into the database.");

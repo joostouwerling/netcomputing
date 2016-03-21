@@ -10,17 +10,23 @@ public class Match {
     private String server;
     private int port;
 
-    public Match(int id, String name, String server, int port)
-    {
+    public Match(int id, String name, String server, int port) {
         setId(id);
         setName(name);
         setServer(server);
         setPort(port);
     }
     
-    public Match(String name, String server, int port) {
+    public Match(String name, String server, int port) throws Exception {
     	this(0, name, server, port);
+		if (name == null || name == "")
+    		throw new Exception("A match should have a name.");
+    	if (server == null || server == "")
+    		throw new Exception("A match should have a name.");
+    	if (port <= 0)
+        	throw new Exception("The port can not be zero or negative.");
     }
+    
 
     public String getName() {
         return name;

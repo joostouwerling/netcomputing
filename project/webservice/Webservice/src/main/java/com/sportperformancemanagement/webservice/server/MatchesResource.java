@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response.Status;
 
 import com.sportperformancemanagement.common.Match;
 import com.sportperformancemanagement.common.MatchJSON;
+import com.sportperformancemanagement.webservice.dao.AlreadyExistsException;
 import com.sportperformancemanagement.webservice.dao.MatchDAO;
 
 @Path("/matches")
@@ -48,17 +49,36 @@ public class MatchesResource {
 	}
 	
 	@POST
-	public void insertMatch(@FormParam("port") int port,
+	public Response insertMatch(@FormParam("port") int port,
 							@FormParam("name") String name,
 							@FormParam("server") String server) {
-		Match match = new Match(name, server, port); 
+		Match match;
+		
+		/**
+		 * Try to construct a match without an ID.
+		 * This will check the values if they are correct
+		 */
+		try {
+			match = new Match(name, server, port);
+		} catch (Exception ex) {
+			logger.log(Level.WARNING, "Match could not be created from input.", ex);
+			throw new WebApplicationException(
+					Response.status(Status.BAD_REQUEST).entity(ex.getMessage()).build());	
+		}
+		
 		try {
 			matchDao.insert(match);
+		} catch (AlreadyExistsException ex) {
+			throw new WebApplicationException(
+					Response.status(Status.CONFLICT).entity(ex.getMessage()).build());	
 		} catch (Exception ex) {
 			logger.log(Level.WARNING, "Match could not be inserted.", ex);
 			throw new WebApplicationException(
 					Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build());	
 		}
+		return Response.status(Status.CREATED).entity(MatchJSON.matchToJson(match).toString()).build();
 	}
+	
+
 		
 }

@@ -51,7 +51,7 @@ public class MatchDAO {
 		}
 	}
 	
-	public void insert(Match match) throws Exception {
+	public void insert(Match match) throws AlreadyExistsException, Exception {
 		Connection conn = MySQLConnection.instance();
 		if (conn == null)
 			throw new Exception("MySQL Connection not available.");
@@ -66,7 +66,7 @@ public class MatchDAO {
 			logger.log(Level.INFO, "Match " + match.getName() + " inserted into the database");
 		} catch (MySQLIntegrityConstraintViolationException ex) {
 			logger.log(Level.WARNING, "Match probably already exists in database", ex);
-			throw new Exception("The match with name " + match.getName() + " already exists!");
+			throw new AlreadyExistsException("The match with name " + match.getName() + " already exists!");
 		} catch (Exception ex) {
 			logger.log(Level.SEVERE, "Exception while inserting match into database.", ex);
 			throw new Exception("Could not insert the match into the database.");
