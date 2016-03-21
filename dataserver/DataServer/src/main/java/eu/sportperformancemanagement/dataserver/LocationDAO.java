@@ -13,6 +13,13 @@ import java.util.logging.Logger;
 import eu.sportperformancemanagement.common.LocationPacket;
 import eu.sportperformancemanagement.common.MySQLConnection;
 
+/**
+ * This class is used to store Location Packet objects
+ * in the database, and return arrays of Location objects
+ * for a certain match and player.
+ * @author Joost Ouwerling <j.t.ouwerling@student.rug.nl>
+ *
+ */
 public class LocationDAO {
 
 	/**
@@ -27,7 +34,7 @@ public class LocationDAO {
 	Connection conn = null;
 	
 	/**
-	 * Empty constructor
+	 * Load the MYSQL connection. If this fails, log an error message.
 	 */
 	public LocationDAO() {
 		try {
@@ -40,7 +47,8 @@ public class LocationDAO {
 	/**
 	 * Insert locationPacket into the database. Connection given by
 	 * MySQLConnection.getInstance();
-	 * @param locationPacket
+	 * @param locationPacket the location packet that needs to be inserted.
+	 * @throws Exception if no MySQL connection is available or when an SQL error occurs.
 	 */
 	public void insert(LocationPacket locationPacket) throws Exception {
 		if (conn == null)
@@ -58,11 +66,11 @@ public class LocationDAO {
 	
 	/**
 	 * Returns an array with Location objects, where all
-	 * Location obejcts are created from entries in match 
+	 * Location objects are created from entries in match 
 	 * matchId for player playerId.
 	 * @param matchId the match id
 	 * @param playerId the player id
-	 * @return an array of Locations for this player in this match
+	 * @return an array of Location objects for this player in this match
 	 * @throws Exception if there is a problem with SQL.
 	 */
 	public Location[] findLocations(int matchId, int playerId) throws Exception {

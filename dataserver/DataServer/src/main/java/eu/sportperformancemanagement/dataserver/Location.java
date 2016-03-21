@@ -2,7 +2,7 @@ package eu.sportperformancemanagement.dataserver;
 
 /**
  * Storage class for Locations, i.e. a holder for a latitude and longitude.
- * @author joostouwerling
+ * @author Joost Ouwerling <j.t.ouwerling@student.rug.nl>
  *
  */
 public class Location {

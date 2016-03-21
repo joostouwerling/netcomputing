@@ -6,14 +6,14 @@ import org.json.JSONObject;
 /**
  * Two static functions which can transfer Location and
  * Location arrays to JSON objects resp JSON arrays.
- * @author joostouwerling
+ * @author Joost Ouwerling <j.t.ouwerling@student.rug.nl>
  *
  */
 public class LocationJSON {
 
 	/**
 	 * Make a JSON array from the Location objects in locs.
-	 * @param locs
+	 * @param locs the array of Location objects that need to be made JSON
 	 * @return JSONArray with JSONObjects, where each JSONObject is made by locationToJson.
 	 */
 	public static JSONArray locationsToJson(Location[] locs) {
@@ -25,7 +25,7 @@ public class LocationJSON {
 	
 	/**
 	 * Make a JSON object from the Location in loc
-	 * @param loc
+	 * @param loc the location that needs to be JSONized
 	 * @return a JSONObject with fields lat and lng
 	 */
 	public static JSONObject locationToJson(Location loc) {
