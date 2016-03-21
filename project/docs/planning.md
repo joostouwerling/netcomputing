@@ -20,7 +20,6 @@ Version 1, made at 9th of March.
 * deploying with multiple servers
 * ~~Data server refactoren~~
 * ~~Implement creation of matches~~
-* Fetch existing players in coach web
-* set up player data in app
+* ~~Fetch existing players in coach web~~
+* ~~set up player data in app~~
 * set correct status codes
-* implement update/delete of players/matches?
