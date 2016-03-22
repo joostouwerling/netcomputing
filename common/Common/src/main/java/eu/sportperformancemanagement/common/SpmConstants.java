@@ -17,7 +17,21 @@ public class SpmConstants {
 	 */
 	public static final String QUEUE_SERVER = "rabbitmq.sportperformancemanagement.eu";
 	
+	/**
+	 * The rabbit mq username
+	 */
+	public static final String QUEUE_USERNAME = "spm";
+			
+	/**
+	 * The rabbit mq password
+	 */
+	public static final String QUEUE_PASSWORD = "spm";
 
+	/**
+	 * The port of the queue
+	 */
+	public static final int QUEUE_PORT = 5672;
+	
 	/**
 	 * The exchange name of the rabbit mq exchange.
 	 */

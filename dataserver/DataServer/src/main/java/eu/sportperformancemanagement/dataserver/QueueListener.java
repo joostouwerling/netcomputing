@@ -62,6 +62,9 @@ public class QueueListener implements Runnable {
 		 */
 		ConnectionFactory factory = new ConnectionFactory();
 		factory.setHost(SpmConstants.QUEUE_SERVER);
+		factory.setPort(SpmConstants.QUEUE_PORT);
+		factory.setUsername(SpmConstants.QUEUE_USERNAME);
+		factory.setPassword(SpmConstants.QUEUE_PASSWORD);
 		Connection connection;
 		Channel channel;
 		String queueName;
