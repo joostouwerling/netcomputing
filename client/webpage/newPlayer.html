@@ -83,10 +83,10 @@
 						//check whether the form is arived
 						jqxhr.done( function() {alert("The player is saved")} )
 						jqxhr.fail( function(xhr, textStatus, errorThrown) {
-							$btn.button('reset');
 							alert(xhr.responseText);
 						});	
 					}
+					$btn.button('reset');
 				});
 			});
 		</script>

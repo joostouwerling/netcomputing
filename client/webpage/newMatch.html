@@ -93,10 +93,10 @@
 						//check whether the form is arrived
 						jqxhr.done( function() {alert("The match is saved")} )
 						jqxhr.fail( function(xhr, textStatus, errorThrown) {
-							$btn.button('reset');
 							alert(xhr.responseText);
 						});					
 					}
+					$btn.button('reset');
 				});
 			});		
 		</script>
