@@ -10,11 +10,6 @@ apt-get install mysql-server
 apt-get install maven
 ```
 
-Now, set the right environment variables for MySQL (MYSQL_SERVER, MYSQL_DATABASE, MYSQL_USERNAME, MYSQL_PASSWORD)
-```
-nano /etc/environment
-```
-
 Clone the code from the repository & cd into the right directory
 ```
 git clone https://github.com/joostouwerling/netcomputing.git
@@ -46,6 +41,14 @@ chgrp -R tomcat conf
 chmod g+rwx conf
 chmod g+r conf/*
 chown -R tomcat work/ temp/ logs/ webapps/
+```
+
+Add the following to /opt/tomcat/bin/setenv.sh
+```
+export MYSQL_SERVER=localhost:3306
+export MYSQL_DATABASE=spm
+export MYSQL_USERNAME=<user>
+export MYSQL_PASSWORD=<pass>
 ```
 
 Now, create the start script:
@@ -119,4 +122,4 @@ Restart Tomcat:
 initctl restart tomcat
 ```
 
-Now, you can generate a WAR file (can be done locally) using `mvn install` and load it up through the web manager.
+Now, you can generate a WAR file (can be done locally) using `mvn install` and load it up through the web manager. Or copy WAR file into /opt/tomcat/webapps/
