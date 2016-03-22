@@ -1,0 +1,39 @@
+%%===================================
+%\documentclass[12pt,twoside,openright]{report}
+\documentclass[12pt]{article}
+\usepackage{ramsstyle}
+%%===================================
+
+%\includeonly{chapter01,chapter02}
+
+%%===================================
+\begin{document}
+\include{front} % This is the titlepage
+\setcounter{page}{0}
+\pagenumbering{roman}
+
+ %% Remove this line if the document does not need to be print friendly.
+ %% ALso remove the line in front.tex
+%\afterpage{\blankpage}
+
+%\tableofcontents
+%\thispagestyle{empty}
+\pagenumbering{arabic}
+
+\setcounter{page}{1}
+\input{introduction}
+\input{architecture}
+\input{implementation}
+
+%\appendix
+%\include{appendix}
+%%=========================================
+%\include{acronyms}
+%\include{appendix-b}
+% Include more appendices as required.
+%%=========================================
+%\bibliographystyle{unsrt}
+%\addcontentsline{toc}{section}{\bibname}
+%\bibliography{refs}  
+
+\end{document}
