@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.sportperformancemanagement.player.MatchListActivity">
+    tools:context="eu.sportperformancemanagement.player.MatchListActivity">
 
 
     <android.support.design.widget.AppBarLayout

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sportperformancemanagement.player.sportperformancemanagement">
+    package="eu.sportperformancemanagement.player">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -11,24 +11,28 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!-- Match Detail Activity shows a match in detail and has the functionality to start
+         listening for location updates. It has as parent the match list -->
         <activity
-            android:name="com.sportperformancemanagement.player.MatchDetailActivity"
+            android:name="eu.sportperformancemanagement.player.MatchDetailActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.sportperformancemanagement.player.MatchListActivity" />
+                android:value="eu.sportperformancemanagement.player.MatchListActivity" />
         </activity>
+        <!-- Player Activity lets the user select the player he/she is. Has as parent the match list -->
         <activity
-            android:name="com.sportperformancemanagement.player.PlayerActivity"
+            android:name="eu.sportperformancemanagement.player.PlayerActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.sportperformancemanagement.player.MatchListActivity" />
+                android:value="eu.sportperformancemanagement.player.MatchListActivity" />
         </activity>
+        <!-- This activity shows a list of matches, which the user can select -->
         <activity
-            android:name="com.sportperformancemanagement.player.MatchListActivity"
+            android:name="eu.sportperformancemanagement.player.MatchListActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -37,13 +41,6 @@
             </intent-filter>
         </activity>
 
-        <!--
-             ATTENTION: This was auto-generated to add Google Play services to your project for
-             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
-        -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
 
     </application>
 
