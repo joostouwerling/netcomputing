@@ -83,7 +83,7 @@ public class LocationPacket {
 	 * @return a LocationPacket
 	 */
 	public static LocationPacket parsePacket(String packet) {
-		String[] lines = packet.split(" ");
+		String[] lines = packet.split("\n");
 		try {
 			int playerId = Integer.parseInt(lines[0]);
 			int matchId = Integer.parseInt(lines[1]);
