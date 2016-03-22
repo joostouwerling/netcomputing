@@ -1,140 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-  
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="In this page the user is able to see heatmaps from players in certain matches">	
-    <meta name="Erik Bijl">
-	
-    <title>Heatmaps</title>
+  	<!-- 
+		Author: Erik Bijl
+		Description: This page provides the client the option to create see heatmaps from players in current matches.
+		The players and matches are extracted from the server by loadMatches and loadPlayers. 
+		The heatmaps were constructed from the latitude and longitude by a plugin from Google maps.
+	-->
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	 
+		<title>Heatmaps</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+		<!-- Bootstrap core CSS -->
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<!-- Custom styles for this template -->
+		<link href="css/webpageStyle.css" rel="stylesheet"> 
+	 </head>
 
-    <!-- Custom styles for this template -->
-    <link href="css/webpageStyle.css" rel="stylesheet"> 
-  </head>
-
-  <body>
-	
-	<nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="index.html">Sport Performance Management</a>
-        </div>
-		 <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-left">
-            <li><a href="index.html">Heatmaps</a></li>
-            <li><a href="newMatch.html">New match</a></li>	
-			<li><a href="newPlayer.html">New player</a></li>
-			</ul>
-			</div>
-      </div>
-    </nav>
-
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-4 col-md-2 sidebar">
-			<ul class="nav nav-sidebar">
-            	<b> Select a a player: </b><br> <br>
-			<form id="getLocations" action="http://webservice.sportperformancemanagement.eu:8080/Webservice/rest/locations" method="get">
-				<div  class="form-group">
-					<label for="match">Match</label>
-					<select class="form-control" id="selectMatch">
-					</select>
+	<body>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="index.html">Sport Performance Management</a>
 				</div>
-				<div class="form-group">
-					<label for="player">Player</label>
-					<select class="form-control" id="selectPlayer">
-					</select>
-				</div>	
-			</form>
-			<button type="submit" class="btn btn-default" id="submitButton" value="submit" data-loading-text="Loading...">GO</button>
-			</ul>
-        </div> 		
-      </div>
-    </div>
-	<div id = "map"></div>
-	
-	
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script type="text/javascript">
-	var matches = [];
-	var players = [] 
-	var map, heatmap;
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav navbar-left">
+					<li><a href="index.html">Heatmaps</a></li>
+					<li><a href="newMatch.html">New match</a></li>	
+					<li><a href="newPlayer.html">New player</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-4 col-md-2 sidebar">
+					<ul class="nav nav-sidebar">
+						<b> Select a a player: </b><br> <br>
+						<form id="getLocations" action="http://webservice.sportperformancemanagement.eu:8080/Webservice/rest/locations" method="get">
+							<div  class="form-group">
+								<label for="match">Match</label>
+								<select class="form-control" id="selectMatch">
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="player">Player</label>
+								<select class="form-control" id="selectPlayer">
+								</select>
+							</div>	
+						</form>
+						<button type="submit" class="btn btn-default" id="submitButton" value="submit" data-loading-text="Loading...">GO</button>
+					</ul>
+				</div> 		
+			</div>
+		</div>
+		<div id = "map"></div>
 		
-		function loadMatches() {
-			var i;
-			jQuery.getJSON( "http://webservice.sportperformancemanagement.eu:8080/Webservice/rest/matches", function( data ) {
-				for(i = 0; i < data.length; i++){
-					matches[i] = data[i];
-					$("#selectMatch").append($("<option></option>").val(data[i].id).html(data[i].name));
-				}
-			}).error(function() { alert("error"); });
-			 loadPlayers();
-		}
-		
-		function loadPlayers() {
-			var i;
-			jQuery.getJSON( "http://webservice.sportperformancemanagement.eu:8080/Webservice/rest/players", function( data ) {
-				for(i = 0; i < data.length; i++){
-					players[i] = data[i];
-					$("#selectPlayer").append($("<option></option>").val(data[i].id).html(data[i].name));
-				}
-			}).error(function() { alert("error"); });
-			}
-		
-		function loadHeatMap(player, match, $btn) {
-			var sumLat = 0;  	
-			var sumLng = 0;
-			var i;
-			jQuery.getJSON( "http://webservice.sportperformancemanagement.eu:8080/Webservice/rest/locations/" + match + "/" + player, function( data ) {
-				var points = [];
-				for(i = 0; i < data.length; i++) { 
-					sumLat += data[i].lat;
-					sumLng += data[i].lng;	
-					points.push(new google.maps.LatLng(data[i].lat,data[i].lng));
-			}
-				loadMap(points, sumLat, sumLng, $btn);
-			});
-		}
-		
-		function loadMap(points, sumLat, sumLng, $btn) {
-			var i; 
-			var avgLat = sumLat / points.length; 
-			var avgLng = sumLng / points.length; 
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script type="text/javascript">
+			var matches = [];
+			var players = [] 
+			var map, heatmap;
 			
-			map = new google.maps.Map(document.getElementById('map'), {
-				  zoom: 17,
-				  center: {	lat: avgLat, lng: avgLng},
-				  mapTypeId: google.maps.MapTypeId.SATELLITE
+			//function which loads the matches from the server	
+			function loadMatches() {
+				var i;
+				jQuery.getJSON( "http://webservice.sportperformancemanagement.eu:8080/Webservice/rest/matches", function( data ) {
+					for(i = 0; i < data.length; i++){
+						matches[i] = data[i];
+						$("#selectMatch").append($("<option></option>").val(data[i].id).html(data[i].name));
+					}
+				}).error(function() { alert("error"); });
+				loadPlayers();
+			}
+			
+			//function which loads the player from the server	
+			function loadPlayers() {
+				var i;
+				jQuery.getJSON( "http://webservice.sportperformancemanagement.eu:8080/Webservice/rest/players", function( data ) {
+					for(i = 0; i < data.length; i++){
+						players[i] = data[i];
+						$("#selectPlayer").append($("<option></option>").val(data[i].id).html(data[i].name));
+					}
+				}).error(function() { alert("error"); });
+			}
+			
+			//function which loads the heap map from a given player in match
+			function loadHeatMap(player, match, $btn) {
+				var sumLat = 0;  	
+				var sumLng = 0;
+				var i;
+				jQuery.getJSON( "http://webservice.sportperformancemanagement.eu:8080/Webservice/rest/locations/" + match + "/" + player, function( data ) {
+					var points = [];
+					for(i = 0; i < data.length; i++) { 
+						sumLat += data[i].lat;
+						sumLng += data[i].lng;	
+						points.push(new google.maps.LatLng(data[i].lat,data[i].lng));
+				}
+					loadMap(points, sumLat, sumLng, $btn);
+				}).error(function() { alert("error"); });
+			}
+			
+			//function that finishes the heatmap and sets the heatmap settings 
+			function loadMap(points, sumLat, sumLng, $btn) {
+				//center must be on the average latitude and longitude
+				var avgLat = sumLat / points.length; 
+				var avgLng = sumLng / points.length; 
+				
+				map = new google.maps.Map(document.getElementById('map'), {
+					zoom: 17,
+					center: {lat: avgLat, lng: avgLng},
+					mapTypeId: google.maps.MapTypeId.SATELLITE
 				});
-			heatmap = new google.maps.visualization.HeatmapLayer({
-				  data: points,
-				  map: map
+				heatmap = new google.maps.visualization.HeatmapLayer({
+					data: points,
+					map: map
 				});
+				//reset the button such that a new heatmap can be loaded
 				$btn.button('reset');				
-		}
-	
-		$('#submitButton').on('click', function () {
-			var $btn = $(this).button('loading');
-	
-			var player = $(	"#selectPlayer").val();
-			var match = $ ( "#selectMatch").val();
-			loadHeatMap(player, match, $btn) ;
-		})	
+			}
+			
+			//function which is called when the form is submitted. Start to load the heatmap from a particular player in a particular match. 
+			$('#submitButton').on('click', function () {
+				var $btn = $(this).button('loading');
 		
-			</script>
-		
+				var player = $(	"#selectPlayer").val();
+				var match = $ ( "#selectMatch").val();
+				loadHeatMap(player, match, $btn) ;
+			})	
+		</script>
+			
 		<script async defer
 			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGePtTEBjsvrA_nHKS8hkxXfMv48C9czM&libraries=visualization&callback=loadMatches">
 		</script>
