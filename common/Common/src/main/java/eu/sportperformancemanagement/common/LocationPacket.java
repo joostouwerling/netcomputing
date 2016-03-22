@@ -87,7 +87,7 @@ public class LocationPacket {
 		try {
 			int playerId = Integer.parseInt(lines[0]);
 			int matchId = Integer.parseInt(lines[1]);
-			int timestamp = Integer.parseInt(lines[2]);
+			long timestamp = Long.parseLong(lines[2]);
 			double latitude = Double.parseDouble(lines[3]);
 			double longitude = Double.parseDouble(lines[4]);
 			// Convert timestamp to a date.
