@@ -20,6 +20,7 @@ import javax.ws.rs.core.Response.Status;
 import eu.sportperformancemanagement.common.LocationRequest;
 import eu.sportperformancemanagement.common.SpmConstants;
 
+
 /**
  * This class listens for location requests. If one comes in,
  * it asks all data servers what data they have. It returns everything
@@ -88,9 +89,9 @@ public class LocationsResource {
 	@GET
 	@Path("/{match}/{player}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void getLocationsForMatchAndPlayer(@Suspended final AsyncResponse asyncResponse,
-									@PathParam("match") final int matchId,
-									@PathParam("player") final int playerId) {
+	public void getLocationsForMatchAndPlayer(@Suspended final AsyncResponse asyncResponse, 
+			@PathParam("match") final int matchId,
+			@PathParam("player") final int playerId) {
 	    /**
 	     * This thread runs asynchronously on the server
 	     */
@@ -98,19 +99,26 @@ public class LocationsResource {
 	 
 			/**
 			 * Request the locations from data servers. If it returns,
-			 * resume the response with the given result.
+			 * resume the response with the given result. If an WebApplicationException
+			 * occured, use that response in the resume operation
 			 */
 	        @Override
 	        public void run() {
-	            String result = requestLocationsFromDataServers();
-	            asyncResponse.resume(result);
+	        	try {
+	        		String result = requestLocationsFromDataServers();
+	        		asyncResponse.resume(result);
+	        	} catch (WebApplicationException ex) {
+	        		asyncResponse.resume(ex.getResponse());
+	        	}
 	        }
 	        
 	        /**
 	         * Request the locations from the data servers
 	         * @return a JSON array string
+	         * @throws WebApplicationException if any problem happened during
+	         * requesting locations
 	         */
-	        private String requestLocationsFromDataServers() {
+	        private String requestLocationsFromDataServers() throws WebApplicationException {
 	        	try {
 	        		// Get the key for this request, and increase it so new requests have a different key
 	        		int current_key = key;
@@ -122,9 +130,9 @@ public class LocationsResource {
 	        		logger.log(Level.INFO, "Started listening for locations on key " + current_key);
 	        		
 	        		// notify dataservers via RequestEmitter. If this fails, it throws an Exception
-	        		RequestEmitter.emit(new LocationRequest(matchId, 	
-	        												playerId,
-	        												SpmConstants.WEBSERVICE_BASE_URL + "locations/" + current_key));
+	        		RequestEmitter.emit(new LocationRequest(matchId, 
+	        				playerId,
+	        				SpmConstants.WEBSERVICE_BASE_URL + "locations/" + current_key));
 	        		
 	        		// Wait for a bit, so requests come in.
 	        		Thread.sleep(SpmConstants.WAIT_TIME_LOCATIONS);
