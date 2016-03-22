@@ -45,7 +45,9 @@
 			<div class="row">
 				<div class="col-sm-4 col-md-2 sidebar">
 					<ul class="nav nav-sidebar">
-						<b> Select a a player: </b><br> <br>
+						<h3> Select a a player: </h3>
+						<div class="alert alert-success" id="success" style="display: none"></div>
+						<div class="alert alert-danger" id="error" style="display: none"></div>
 						<form id="getLocations" action="http://webservice.sportperformancemanagement.eu:8080/Webservice/rest/locations" method="get">
 							<div  class="form-group">
 								<label for="match">Match</label>
@@ -63,9 +65,10 @@
 				</div> 		
 			</div>
 		</div>
-		<div id = "map"></div>
+		<div id = "map"> <p class="welcomemsg">Use the menu on the left to load a heatmap.</p></div>
 		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="javascript/messages.js"></script>
 		<script type="text/javascript">
 			var matches = [];
 			var players = [] 
@@ -79,7 +82,10 @@
 						matches[i] = data[i];
 						$("#selectMatch").append($("<option></option>").val(data[i].id).html(data[i].name));
 					}
-				}).error(function() { alert("error"); });
+				}).error(function(err) {
+					showError("Could not load matches. Try again later");
+					console.log(err);
+				});
 				loadPlayers();
 			}
 			
@@ -91,7 +97,10 @@
 						players[i] = data[i];
 						$("#selectPlayer").append($("<option></option>").val(data[i].id).html(data[i].name));
 					}
-				}).error(function() { alert("error"); });
+				}).error(function() {
+					showError("Could not load players. Try again later");
+					console.log(err);
+				});
 			}
 			
 			//function which loads the heap map from a given player in match
@@ -105,9 +114,13 @@
 						sumLat += data[i].lat;
 						sumLng += data[i].lng;	
 						points.push(new google.maps.LatLng(data[i].lat,data[i].lng));
-				}
+					}
+					showSuccess(points.length + " locations loaded from the database.");
 					loadMap(points, sumLat, sumLng, $btn);
-				}).error(function() { alert("error"); });
+				}).error(function() { 
+					showMessage("Could not load locations from the database. Try again later.");
+					console.log(err);
+				});
 			}
 			
 			//function that finishes the heatmap and sets the heatmap settings 

@@ -38,5 +38,5 @@ Now, we can run the data server as follows:
 ```
 cd DataServer
 mvn install
-mvn exec:java -Dexec.mainClass="eu.sportperformancemanagement.dataserver.DataServer"
+nohup mvn exec:java -Dexec.mainClass="eu.sportperformancemanagement.dataserver.DataServer" > <logfile> &
 ```

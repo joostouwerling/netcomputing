@@ -43,6 +43,8 @@
 			<div class="row">
 				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 					<h1 class="page-header">New Player</h1>
+					<div class="alert alert-success" id="success" style="display: none"></div>
+					<div class="alert alert-danger" id="error" style="display: none"></div>
 					<div class="row placeholders">
 						<div class="col-xs-6 col-sm-3 placeholder">
 							<form id="newPlayer" method="post">
@@ -59,6 +61,7 @@
 		</div>	
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="javascript/messages.js"></script>
 
 		<script type='text/javascript'> 
 			//function for submitting the form
@@ -70,9 +73,9 @@
 					
 					//check whether form is filled in completely
 					if(name==''){
-						alert("Please fill out the form");
+						showError("Please fill out the form");
 					}
-					else{
+					else {
 						//form is complete so post to server
 						url = "http://webservice.sportperformancemanagement.eu:8080/Webservice/rest/players";
 						var jqxhr = $.post(url,{ name:name},
@@ -81,9 +84,11 @@
 								$("#newPlayer")[0].reset();
 							});
 						//check whether the form is arived
-						jqxhr.done( function() {alert("The player is saved")} )
-						jqxhr.fail( function(xhr, textStatus, errorThrown) {
-							alert(xhr.responseText);
+						jqxhr.done( function() {
+							showSuccess("The match was saved in the database.");
+						});
+						jqxhr.fail( function(xhr, textStatus, errorThrown){
+							showError("Error while processing your request. " + xhr.responseText);
 						});	
 					}
 					$btn.button('reset');
