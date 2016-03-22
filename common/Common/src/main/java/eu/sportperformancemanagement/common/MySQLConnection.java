@@ -117,6 +117,8 @@ public class MySQLConnection {
 	 */
 	private Map<String, String> getConnectionParameters() throws Exception {
 		Map<String, String> env = System.getenv();
+		for (Map.Entry<String, String> envEl : env.entrySet())
+			logger.log(Level.INFO, envEl.getKey() + " = " + envEl.getValue());
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("server", getFromEnvironment(env, "MYSQL_SERVER"));
 		params.put("database", getFromEnvironment(env, "MYSQL_DATABASE"));
