@@ -53,6 +53,14 @@ public class MatchDetailActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+        /**
+         * Saved instance state is null? Fresh activity
+         * Fetch the match from the intent
+         */
+        if (savedInstanceState == null)
+            mMatch = (Match) getIntent().getParcelableExtra(ARG_MATCH);
+
         /**
          * First, check if the player is set. If not, redirect to the player set activity
          */
@@ -113,13 +121,6 @@ public class MatchDetailActivity extends AppCompatActivity  {
                 stopMonitoring();
             }
         });
-
-        /**
-         * Saved instance state is null? Fresh activity
-         * Fetch the match from the intent
-         */
-        if (savedInstanceState == null)
-            mMatch = (Match) getIntent().getParcelableExtra(ARG_MATCH);
 
     }
 
